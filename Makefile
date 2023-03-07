@@ -1,10 +1,9 @@
-CFLAGS:= -pedantic
 EXEC:= pacman
 default:= $(EXEC)
 CC:=g++
 
-pacman: $(EXEC).o main.o
-	$(CC) $(CFLAGS) -o $(EXEC) main.o $(EXEC).o
+pacman: main.o pacman.o
+	$(CC) $(CFLAGS) -o $(EXEC) main.o pacman.o
 clean:
 	rm -f *.o $(EXEC)
 

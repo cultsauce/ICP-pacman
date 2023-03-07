@@ -37,7 +37,6 @@ Pacman::Pacman (char *filename) {
 }
 
 Pacman::~Pacman() {
-    delete field;
 }
 
 void Pacman::display () {
@@ -70,7 +69,7 @@ void Pacman::move (char in) {
             }
             break;
     }
-    field[pos[1]].replace(pos[0], 1, "P");
+    field[pos[1]].replace(pos[0], 1, "S");
 }
 
 void Pacman::run () {
@@ -79,8 +78,9 @@ void Pacman::run () {
         display ();
         std::cin >> in;
         move (in);
-        if (field[pos[1]][pos[0]] == 'T') {
+        if (pos[1] == end[1] && pos[0] == end[0]) {
             std::cout << "YELL HEAH DUDE" << std::endl;
+            break;
         }
     }
 }

@@ -4,9 +4,9 @@
 #include <QDebug>
 #include <QTransform>
 
-Ghost::Ghost(QGraphicsItem *parent): QGraphicsPixmapItem(parent) {
+Ghost::Ghost(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	pixmap = new QPixmap("../Resources/images/ghost.png");
-	setPixmap(pixmap->scaled(80, 80));
+	setPixmap(pixmap->scaled(size, size));
 	QTimer * timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
 	timer->start(50);
@@ -23,7 +23,7 @@ void Ghost::move() {
 	}
 
 	 //move ghost left and right
-	if (pos().x()  > 900 && !left) {
+	if (pos().x()  > 450 && !left) {
 		left = true;
 		setPos(x() - 10, y());
 		/* flip */

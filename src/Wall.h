@@ -9,7 +9,7 @@
 class Wall : public QObject, public QGraphicsPixmapItem {
 	Q_OBJECT
 public:
-	Wall(QGraphicsItem *parent=nullptr, int size=20);
+	Wall(QGraphicsItem *parent=nullptr, int size=50);
 private:
 	QPixmap * pixmap;
 };

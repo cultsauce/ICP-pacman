@@ -6,24 +6,25 @@
 
 
 
-Player::Player(QGraphicsItem *parent): QGraphicsPixmapItem(parent) {
-	setPixmap(QPixmap("../Resources/images/pacman.png").scaled(50, 50));
+Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
+	setPixmap(QPixmap("../Resources/images/pacman.png").scaled(size, size));
 }
 
 
 void Player::keyPressEvent(QKeyEvent *event) {
-	if (event->key() == Qt::Key_Left) {
-		move(x() - 10, y());
-	} else if (event->key() == Qt::Key_Right) {
-		move(x() + 10, y());
-	} else if (event->key() == Qt::Key_Up) {
-		move(x(), y() - 10);
-	} else if (event->key() == Qt::Key_Down) {
-		move(x(), y() + 10);
+	if (event->key() == Qt::Key_A) {
+		move(x() - STEP_SIZE, y());
+	} else if (event->key() == Qt::Key_S) {
+		move(x() + STEP_SIZE, y());
+	} else if (event->key() == Qt::Key_W) {
+		move(x(), y() - STEP_SIZE);
+	} else if (event->key() == Qt::Key_Z) {
+		move(x(), y() + STEP_SIZE);
 	}
 }
 
 void Player::move(qreal x_new, qreal y_new) {
+	if (x_new < 0 || y_new < 0 || x_new >= 455 || y_new >= 455) return;
 	x_last = x();
 	y_last = y();
 	setPos(x_new, y_new);
@@ -34,12 +35,6 @@ void Player::move(qreal x_new, qreal y_new) {
 			return;
 		}
 	}
-}
-
-void Player::spawn(){ // #spaghetti
-    // create an enemy
-    Ghost * enemy = new Ghost();
-    scene()->addItem(enemy);
 }
 
 void Player::claimKey() {

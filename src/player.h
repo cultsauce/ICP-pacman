@@ -20,6 +20,7 @@ class Player : public QObject, public QGraphicsPixmapItem {
 		qreal x_last;
 		qreal y_last;
 		bool holdsKey = false;
+		qreal direction[2];
 };
 
 #endif //QTTEST_PLAYER_H

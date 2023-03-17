@@ -16,6 +16,7 @@ class Ghost : public QObject, public QGraphicsPixmapItem {
 		QList<QGraphicsItem *> colliding_items;
 		bool left = false;
 		QPixmap * pixmap;
+		qreal direction[2];
 };
 
 #endif //QTTEST_GHOST_H

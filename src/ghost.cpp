@@ -3,7 +3,9 @@
 #include <iostream>
 #include <QDebug>
 #include <QTransform>
+#include <math.h>
 
+#define BLOCK_SIZE 50
 Ghost::Ghost(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	pixmap = new QPixmap("../Resources/images/ghost.png");
 	setPixmap(pixmap->scaled(size, size));
@@ -16,31 +18,35 @@ void Ghost::move() {
 	for (auto item : collidingItems()) {
 		if (typeid(*item) == typeid(Player)) {
 			qDebug() << "Game Over";
-			scene()->removeItem(item);
-			delete item;
-			return;
+			// scene()->removeItem(item);
+			// delete item;
+			// return;
 		}
 	}
 
 	 //move ghost left and right
-	if (pos().x()  > 450 && !left) {
+	if (pos().x() > 450 && !left) {
 		left = true;
-		setPos(x() - 10, y());
+
 		/* flip */
-//		QTransform transform = QTransform();
-//		transform.scale(-1, 1);
-//		setTransform(transform);
+		QTransform transform = QTransform();
+		transform.translate( boundingRect().center().x(), boundingRect().center().y());
+		transform.scale(-1, 1);
+		transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
+		setTransform(transform);
+
 	} else if (!left) {
 		setPos(x() + 5, y());
 	}
 
 	if (pos().x() < 0 && left) {
 		left = false;
-		setPos(x() + 5, y());
 		/* flip */
-//		QTransform transform = QTransform();
-//		transform.scale(1, 1);
-//		setTransform(transform);
+		QTransform transform = QTransform();
+		transform.translate( boundingRect().center().x(), boundingRect().center().y());
+		transform.scale(1, 1);
+		transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
+		setTransform(transform);
 	} else if (left) {
 		setPos(x() - 5, y());
 	}

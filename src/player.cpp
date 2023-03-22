@@ -3,6 +3,7 @@
 #include "Wall.h"
 #include "key.h"
 #include <QKeyEvent>
+#include <QMouseEvent>
 
 
 #define BLOCK_SIZE 50
@@ -14,50 +15,30 @@ Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 }
 
 void Player::keyPressEvent(QKeyEvent *event) {
+	QTransform transform = QTransform();
+	transform.translate( boundingRect().center().x(), boundingRect().center().y());
 	if (event->key() == Qt::Key_A) {
-		if (direction[0] != -STEP_SIZE || direction[1] != 0) {
-			QTransform transform = QTransform();
-			transform.translate( boundingRect().center().x(), boundingRect().center().y());
-			transform.scale(-1, 1);
-			transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
-			setTransform(transform);
-		}
 		direction[0] = -STEP_SIZE;
 		direction[1] = 0;
+		transform.scale(-1, 1);
 	} 
 	else if (event->key() == Qt::Key_S) {
-		if (direction[0] != STEP_SIZE || direction[1] != 0) {
-			QTransform transform = QTransform();
-			transform.translate( boundingRect().center().x(), boundingRect().center().y());
-			transform.scale(1, 1);
-			transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
-			setTransform(transform);
-		}
 		direction[0] = STEP_SIZE;
 		direction[1] = 0;
+		transform.scale(1, 1);
 	} 
 	else if (event->key() == Qt::Key_W) {
-		if (direction[0] != 0 || direction[1] != -STEP_SIZE) {
-			QTransform transform = QTransform();
-			transform.translate( boundingRect().center().x(), boundingRect().center().y());
-			transform.rotate(-90);
-			transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
-			setTransform(transform);
-		}
 		direction[0] = 0;
 		direction[1] = -STEP_SIZE;
+		transform.rotate(-90);
 	} 
 	else if (event->key() == Qt::Key_Z) {
-		if (direction[0] != 0 || direction[1] != STEP_SIZE) {
-		    QTransform transform = QTransform();
-			transform.translate( boundingRect().center().x(), boundingRect().center().y());
-			transform.rotate(90);
-			transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
-			setTransform(transform);
-		}
 		direction[0] = 0;
 		direction[1] = STEP_SIZE;
+		transform.rotate(90);
 	}
+	transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
+	setTransform(transform);
 	move(x() + direction[0], y() + direction[1]);
 }
 
@@ -78,10 +59,10 @@ void Player::move(qreal x_new, qreal y_new) {
 void Player::claimKey() {
 	for (auto const item : collidingItems()) {
 		if (typeid(*item) == typeid(Key)) {
-			// holdsKey = true;
-			// scene()->removeItem(item);
-			// delete item;
-			// return;
+			holdsKey = true;
+			scene()->removeItem(item);
+			delete item;
+			return;
 		}
 	}
 }

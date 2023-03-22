@@ -12,11 +12,13 @@ class Ghost : public QObject, public QGraphicsPixmapItem {
 		Ghost(QGraphicsItem *parent=nullptr, int size=50);
 	public slots:
 		void move();
+		void set_new_direction ();
 	private:
 		QList<QGraphicsItem *> colliding_items;
 		bool left = false;
 		QPixmap * pixmap;
 		qreal direction[2];
+		//void set_new_direction ();
 };
 
 #endif //QTTEST_GHOST_H

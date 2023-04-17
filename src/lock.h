@@ -9,10 +9,10 @@
 class Lock : public QObject, public QGraphicsPixmapItem {
 	Q_OBJECT public:
 		Lock(QGraphicsItem *parent=nullptr, int size=20);
-	public slots:
-		void open();
+	// public slots:
+	// 	void open();
 	private:
-		QList<QGraphicsItem *> colliding_items;
+		//QList<QGraphicsItem *> colliding_items;
 		QPixmap * pixmap;
 };
 

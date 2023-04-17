@@ -1,72 +1,80 @@
 #include "player.h"
-#include "ghost.h"
-#include "Wall.h"
-#include "key.h"
-#include <QKeyEvent>
-#include <QMouseEvent>
 
-
-#define BLOCK_SIZE 50
 
 Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	setPixmap(QPixmap("../Resources/images/pacman.png").scaled(size, size));
-	direction[0] = STEP_SIZE;
-	direction[1] = 0;
+	direction.rx() = STEP_SIZE;
+	direction.ry() = 0;
+	found_key = false;
+	num_lives = 3;
+
+	path_timer = new QTimer(this);
+    connect(path_timer, SIGNAL(timeout()), this, SLOT(shortest_path_move()));
 }
 
-void Player::keyPressEvent(QKeyEvent *event) {
+bool Player::start_timer () {
+	path_timer->start(100);
+	return true;
+}
+
+bool Player::stop_timer () {
+	path_timer->stop();
+	return true;
+}
+
+void Player::move () {
 	QTransform transform = QTransform();
 	transform.translate( boundingRect().center().x(), boundingRect().center().y());
-	if (event->key() == Qt::Key_A) {
-		direction[0] = -STEP_SIZE;
-		direction[1] = 0;
-		transform.scale(-1, 1);
-	} 
-	else if (event->key() == Qt::Key_S) {
-		direction[0] = STEP_SIZE;
-		direction[1] = 0;
-		transform.scale(1, 1);
-	} 
-	else if (event->key() == Qt::Key_W) {
-		direction[0] = 0;
-		direction[1] = -STEP_SIZE;
-		transform.rotate(-90);
-	} 
-	else if (event->key() == Qt::Key_Z) {
-		direction[0] = 0;
-		direction[1] = STEP_SIZE;
-		transform.rotate(90);
-	}
+	if (direction.rx() == -STEP_SIZE) transform.scale(-1, 1);
+	else if (direction.rx() == STEP_SIZE) transform.scale(1, 1);
+	else if (direction.ry() == -STEP_SIZE) transform.rotate(-90);
+	else if (direction.ry() = STEP_SIZE) transform.rotate(90);
 	transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
 	setTransform(transform);
-	move(x() + direction[0], y() + direction[1]);
+	setPos(pos() + direction);
 }
 
-void Player::move(qreal x_new, qreal y_new) {
-	if (x_new < 0 || y_new < 0 || x_new > 450 || y_new > 450) return;
-	x_last = x();
-	y_last = y();
-	setPos(x_new, y_new);
-	claimKey();
-	for (auto const item : collidingItems()) {
+void Player::key_move (int key) {
+	stop_timer();
+	if (key == Qt::Key_A) {
+		direction.rx() = -STEP_SIZE;
+		direction.ry() = 0;
+	} 
+	else if (key == Qt::Key_S) {
+		direction.rx() = STEP_SIZE;
+		direction.ry() = 0;
+	} 
+	else if (key == Qt::Key_W) {
+		direction.rx() = 0;
+		direction.ry() = -STEP_SIZE;
+	} 
+	else if (key == Qt::Key_Z) {
+		direction.rx() = 0;
+		direction.ry() = STEP_SIZE;
+	}
+	QPointF new_pos = pos() + direction;
+	if (new_pos.x() < 0 || new_pos.y() < 0 || new_pos.x() > 450 || new_pos.y() > 450) return;
+	QList<QGraphicsItem *> items = parent_scene->items(QRectF(new_pos.x(), new_pos.y(), (qreal)BLOCK_SIZE, (qreal)BLOCK_SIZE));
+	for (QGraphicsItem *&item:items) {
 		if (typeid(*item) == typeid(Wall)) {
-			setPos(x_last, y_last);
 			return;
 		}
 	}
+	move ();
 }
 
-void Player::claimKey() {
-	for (auto const item : collidingItems()) {
-		if (typeid(*item) == typeid(Key)) {
-			holdsKey = true;
-			scene()->removeItem(item);
-			delete item;
-			return;
-		}
+void Player::shortest_path_move () {
+	if (pos() == *s_path_iter) s_path_iter = std::next(s_path_iter, 1);
+	
+	if (s_path_iter == shortest_path.end()) {
+		stop_timer ();
+		return;
 	}
-}
-
-bool Player::hasKey() const {
-	return holdsKey;
+	direction.rx() = 0;
+	direction.ry() = 0;
+	if ((*s_path_iter).x() > pos().x()) direction.rx() = STEP_SIZE;
+	if ((*s_path_iter).x() < pos().x()) direction.rx() = -STEP_SIZE;
+	if ((*s_path_iter).y() > pos().y()) direction.ry() = STEP_SIZE;
+	if ((*s_path_iter).y() < pos().y()) direction.ry() = -STEP_SIZE;
+	move();
 }

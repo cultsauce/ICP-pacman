@@ -6,10 +6,12 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsItem>
+//#include "scene.hpp"
 
 class Ghost : public QObject, public QGraphicsPixmapItem {
 	Q_OBJECT public:
 		Ghost(QGraphicsItem *parent=nullptr, int size=50);
+		QGraphicsScene *parent_scene;
 	public slots:
 		void move();
 		void set_new_direction ();
@@ -17,8 +19,7 @@ class Ghost : public QObject, public QGraphicsPixmapItem {
 		QList<QGraphicsItem *> colliding_items;
 		bool left = false;
 		QPixmap * pixmap;
-		qreal direction[2];
-		//void set_new_direction ();
+		QPoint direction;
 };
 
 #endif //QTTEST_GHOST_H

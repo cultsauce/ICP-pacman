@@ -9,12 +9,15 @@
 #include <fstream>
 #include "scene.hpp"
 
+#ifndef GAME_HPP
+#define GAME_HPP
 class Game {
     public:
-        Game (int argc, char *argv[], char filename[]);
+        Game (int argc, char *argv[], const char filename[]);
         int run ();
     private:
         QApplication *app;
         GameScene *scene;
         QGraphicsView *view;
 };
+#endif // GAME_HPP

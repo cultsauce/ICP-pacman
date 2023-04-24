@@ -1,11 +1,6 @@
 #ifndef QTTEST_PLAYER_H
 #define QTTEST_PLAYER_H
 
-#include "ghost.h"
-#include "Wall.h"
-#include "key.h"
-#include "lock.h"
-
 #include <QObject>
 #include <QList>
 #include <QTimer>
@@ -14,6 +9,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 
+#include "Wall.h"
 
 #define STEP_SIZE 10
 #define BLOCK_SIZE 50

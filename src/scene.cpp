@@ -1,12 +1,14 @@
 #include "scene.hpp"
 #include <algorithm>
 
-GameScene::GameScene (char filename[]) {
+GameScene::GameScene (const char filename[]) {
     generate_scene_from_txt (filename);
 
     QTimer * timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(monitor_game_state ()));
 	timer->start(50);
+
+    srand(time(NULL));
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *mouse_event) {
@@ -60,10 +62,9 @@ void GameScene::shortest_path (QPoint start, QPoint stop, QList<QPoint> &path, Q
             return;
         }
         current = *std::min_element(open.begin(), open.end(), [] ( PathNode *s1, PathNode *s2) {return (s1->heuristic < s2->heuristic);});
-        //current = open.front();
-        //open.pop_front ();
         open.removeAt (open.indexOf(current));
-        //closed.push_back(current);
+        closed.push_back(current);
+
 
         if (current->pos == stop) break;
         QList<QPoint> possible_moves;
@@ -80,15 +81,19 @@ void GameScene::shortest_path (QPoint start, QPoint stop, QList<QPoint> &path, Q
                 tmp->heuristic = tmp->cost + distance_between_points(tmp->pos, stop);
                 tmp->prev_node = current;
 
-                int open_idx = open.indexOf(tmp);
-                int closed_idx = closed.indexOf(tmp);
-                if (open_idx == -1 && closed_idx == -1) {
-                    open.push_back(tmp);
+                int closed_idx = contains(closed, tmp);
+                if (closed_idx != -1) {
+                    delete tmp;
+                    continue;
                 }
+                int open_idx = contains(open, tmp);
+                if (open_idx != -1 && open[open_idx]->heuristic > tmp->heuristic) {
+                    open.replace (open_idx, tmp);
+                }
+                else if (open_idx == -1) open.append(tmp);
                 else delete tmp;
             }
         }
-        closed.push_back(current);
     }
     regenerate_path (closed, current, path);
     iter = path.begin();
@@ -96,14 +101,9 @@ void GameScene::shortest_path (QPoint start, QPoint stop, QList<QPoint> &path, Q
 
 bool GameScene::is_valid_move (QPoint &pos) {
     if (pos.x() < 0 || pos.y() < 0 || pos.x() > 450 || pos.y() > 450) return false;
-	//QList<QGraphicsItem *> items_at = items(QRectF(pos.x(), pos.y(), (qreal)BLOCK_SIZE, (qreal)BLOCK_SIZE));
     QGraphicsItem *item = itemAt (pos, QTransform());
+
     if (item != nullptr && typeid(*item) == typeid(Wall)) return false;
-	// for (QGraphicsItem *&item:items_at) {
-	// 	if (typeid(*item) == typeid(Wall)) {
-	// 		return false;
-	// 	}
-	// }
     return true;
 }
 
@@ -116,6 +116,13 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 		player->key_move (event->key());
 	} 
 	
+}
+
+QPoint GameScene::random_pos () {
+    while (true) {
+        QPoint pos = QPoint((rand () % width) * BLOCK_SIZE, (rand () % height) * BLOCK_SIZE);
+        if (is_valid_move (pos)) return pos;
+    }
 }
 
 void GameScene::log () {
@@ -131,6 +138,13 @@ void GameScene::game_win () {
 }
 
 void GameScene::monitor_game_state () {
+    for (Ghost *ghost:ghosts) {
+        if (ghost->s_path_iter == ghost->shortest_path.end()) {
+            int source_tile_x = static_cast<int>(ghost->scenePos().x() / BLOCK_SIZE) * BLOCK_SIZE;
+            int source_tile_y = static_cast<int>(ghost->scenePos().y() / BLOCK_SIZE) * BLOCK_SIZE;
+            shortest_path (QPoint(source_tile_x, source_tile_y), random_pos(), ghost->shortest_path, ghost->s_path_iter);
+        }
+    }
     QList <QGraphicsItem *> intersecting_objects = items (QRectF(player->pos().x(), player->pos().y(), (qreal)BLOCK_SIZE, (qreal)BLOCK_SIZE));
     for (QGraphicsItem *&item: intersecting_objects) {
         if (typeid(*item) == typeid(Ghost)) {
@@ -150,18 +164,29 @@ void GameScene::monitor_game_state () {
     log ();
 }
 
-void GameScene::generate_scene_from_txt (char filename[]) {
+int GameScene::contains(QList<PathNode *> open, PathNode *s) {
+    for (int i = 0; i < open.count(); i++) {
+        if (open[i]->pos == s->pos) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+void GameScene::generate_scene_from_txt (const char filename[]) {
     std::ifstream file (filename);
-    if (!file.is_open()) 
+    if (!file.is_open()) {
         exit (EXIT_FAILURE);
+    }
 
     std::string line;
     int i = 0;
     getline(file, line);
     while (isdigit(line[i++]));
 
-    int width = atoi(line.substr(0, i).c_str());
-    int height = atoi(line.substr(i, std::string::npos).c_str());
+    width = atoi(line.substr(0, i).c_str());
+    height = atoi(line.substr(i, std::string::npos).c_str());
 
     this->setSceneRect(0, 0, width * BLOCK_SIZE, height * BLOCK_SIZE);
     this->setBackgroundBrush(QBrush(Qt::black));
@@ -191,7 +216,6 @@ void GameScene::generate_scene_from_txt (char filename[]) {
 					ghosts.push_back(ghost);
                     ghost->setPos(j *BLOCK_SIZE, i *BLOCK_SIZE);
                     this->addItem(ghost);
-                    ghost->parent_scene = this;
                     break;
                 }
                 case 'T': {

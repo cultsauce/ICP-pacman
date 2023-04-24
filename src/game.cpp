@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game (int argc, char *argv[], char filename []) {
+Game::Game (int argc, char *argv[], const char filename []) {
     app = new QApplication(argc, argv);
     scene = new GameScene(filename);
 }
@@ -10,6 +10,6 @@ int Game::run () {
     view->show();
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setFixedSize(10 * BLOCK_SIZE, 10 * BLOCK_SIZE);
+    view->setFixedSize(scene->width * BLOCK_SIZE, scene->height * BLOCK_SIZE);
     return app->exec();
 }

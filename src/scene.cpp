@@ -42,10 +42,6 @@ qreal GameScene::distance_between_points (const QPoint &start, const QPoint &sto
     return sqrt(pow(stop.x() - start.x(), 2) + pow(stop.y() - start.y(), 2));
 }
 
-bool operator == (const PathNode &s1, const PathNode &s2) {
-    return s1.pos == s2.pos;
-}
-
 void GameScene::regenerate_path (QList <PathNode *> &closed, PathNode *&start_point, QList <QPoint> &path) {
     PathNode *tmp = start_point;
     while (tmp != nullptr) {
@@ -187,6 +183,7 @@ void GameScene::monitor_game_state () {
             int source_tile_y = static_cast<int>(ghost->scenePos().y() / BLOCK_SIZE) * BLOCK_SIZE;
             shortest_path (QPoint(source_tile_x, source_tile_y), random_pos(), ghost->shortest_path, ghost->s_path_iter);
         }
+        ghost->move ();
     }
     QList <QGraphicsItem *> intersecting_objects = items (QRectF(player->pos().x(), player->pos().y(), (qreal)BLOCK_SIZE, (qreal)BLOCK_SIZE));
     for (QGraphicsItem *&item: intersecting_objects) {
@@ -284,4 +281,15 @@ void GameScene::generate_scene_from_txt (const char filename[]) {
 
 void GameScene::set_view(QGraphicsView *view) {
 	this->view = view;
+}
+
+
+void GameScene::new_game() {
+
+ }
+void GameScene::save_game() {
+
+}
+void GameScene::load_game() {
+    
 }

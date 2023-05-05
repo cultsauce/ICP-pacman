@@ -18,8 +18,6 @@ class Ghost : public QObject, public QGraphicsPixmapItem {
 		QList<QPoint>::iterator s_path_iter;
 
 		Ghost(QGraphicsItem *parent=nullptr, int size=50);
-
-	public slots:
 		void move();
 
 	private:

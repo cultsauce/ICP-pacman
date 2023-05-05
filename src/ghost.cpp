@@ -4,10 +4,6 @@ Ghost::Ghost(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	pixmap = new QPixmap("../Resources/images/ghost.png");
 	setPixmap(pixmap->scaled(size, size));
 
-	QTimer * timer = new QTimer(this);
-    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-	timer->start(50);
-
 	direction.rx() = 0;
 	direction.ry() = 0;
 

@@ -49,16 +49,20 @@ class GameScene: public QGraphicsScene {
 	QTimer * timer;
 	QGraphicsView *view;
 	std::ofstream log_file;
+
+    void log ();
+    void regenerate_path (QList <PathNode *> &closed, PathNode *&start_point, QList <QPoint> &path);
     void shortest_path (QPoint start, QPoint stop, QList<QPoint> &path, QList<QPoint>::iterator &iter);
     void generate_scene_from_txt (const char filename []);
     qreal distance_between_points(const QPoint &start, const QPoint &stop);
-    void regenerate_path (QList <PathNode *> &closed, PathNode *&start_point, QList <QPoint> &path);
+    QPoint random_pos ();
     int contains (QList<PathNode *> open, PathNode *s);
     bool is_valid_move (QPoint &pos);
-    QPoint random_pos ();
 
 private slots:
-    void log ();
+    void new_game();
+	void save_game();
+	void load_game();
     void game_over ();
     void game_win ();
 };

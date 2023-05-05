@@ -48,6 +48,7 @@ class GameScene: public QGraphicsScene {
     std::vector <Ghost *> ghosts;
 	QTimer * timer;
 	QGraphicsView *view;
+	std::ofstream log_file;
     void shortest_path (QPoint start, QPoint stop, QList<QPoint> &path, QList<QPoint>::iterator &iter);
     void generate_scene_from_txt (const char filename []);
     qreal distance_between_points(const QPoint &start, const QPoint &stop);

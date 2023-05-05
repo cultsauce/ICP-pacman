@@ -8,13 +8,17 @@ Form::Form(QWidget *parent) :
     ui->setupUi(this);
 }
 
-Form::~Form()
-{
+Form::~Form() {
     delete ui;
 }
 
 void Form::on_pushButton_clicked()
 {
-    QtDebugMsg << "ayy";
+//    QtDebugMsg << "ayy";
+}
+
+void Form::on_pushButton_2_clicked()
+{
+
 }
 

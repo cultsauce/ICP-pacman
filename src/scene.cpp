@@ -4,10 +4,13 @@
 #include <QPushButton>
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "form.h"
 
 GameScene::GameScene (const char filename[]) {
     generate_scene_from_txt (filename);
+
+	log_file.open("log.txt");
 
     timer = new QTimer(this);
 	QTimer * global_timer = new QTimer(this);
@@ -159,14 +162,21 @@ QPoint GameScene::random_pos () {
 }
 
 void GameScene::log () {
-
+	log_file << "player: " << player->pos().x() << " " << player->pos().y() << std::endl;
+	for (Ghost *ghost: ghosts) {
+		log_file << "ghost: " << ghost->pos().x() << " " << ghost->pos().y() << std::endl;
+	}
+	log_file << "key: " << (player->found_key ? "true" : "false") << std::endl;
+	log_file << std::endl;
 }
 
 void GameScene::game_over () {
+	log_file.close();
     exit(0);
 }
 
 void GameScene::game_win () {
+	log_file.close();
     exit(0);
 }
 

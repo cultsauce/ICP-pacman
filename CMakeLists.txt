@@ -13,7 +13,10 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(qttest src/main.cpp src/scene.cpp src/scene.hpp src/game.cpp src/game.hpp src/player.cpp src/player.h src/ghost.cpp src/ghost.hpp src/Wall.cpp src/Wall.h src/key.cpp src/key.h src/lock.cpp src/lock.h src/menu.cpp src/menu.h src/form.ui src/form.cpp src/form.h)
+add_executable(qttest src/main.cpp src/scene.cpp src/scene.hpp src/game.cpp src/game.hpp src/player.cpp
+        src/player.h src/ghost.cpp src/ghost.hpp src/Wall.cpp src/Wall.h src/key.cpp src/key.h
+        src/lock.cpp src/lock.h src/menu.cpp src/menu.h src/form.ui src/form.cpp src/form.h
+        )
 target_link_libraries(qttest
         Qt5::Core
         Qt5::Gui

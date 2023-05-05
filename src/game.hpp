@@ -15,6 +15,7 @@ class Game {
     public:
         Game (int argc, char *argv[], const char filename[]);
         int run ();
+		QPoint location();
     private:
         QApplication *app;
         GameScene *scene;

@@ -40,7 +40,7 @@ void Player::key_move (int key) {
 		direction.rx() = -STEP_SIZE;
 		direction.ry() = 0;
 	} 
-	else if (key == Qt::Key_S) {
+	else if (key == Qt::Key_D) {
 		direction.rx() = STEP_SIZE;
 		direction.ry() = 0;
 	} 

@@ -11,5 +11,10 @@ int Game::run () {
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setFixedSize(scene->width * BLOCK_SIZE, scene->height * BLOCK_SIZE);
+	scene->set_view(view);
     return app->exec();
 }
+
+//QPoint Game::location() {
+//	return view->pos();
+//}

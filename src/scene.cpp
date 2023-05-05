@@ -1,10 +1,16 @@
 #include "scene.hpp"
+#include "menu.h"
 #include <algorithm>
+#include <QPushButton>
+#include <iostream>
+#include <string>
+#include "form.h"
 
 GameScene::GameScene (const char filename[]) {
     generate_scene_from_txt (filename);
 
-    QTimer * timer = new QTimer(this);
+    timer = new QTimer(this);
+	QTimer * global_timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(monitor_game_state ()));
 	timer->start(50);
 
@@ -109,12 +115,39 @@ bool GameScene::is_valid_move (QPoint &pos) {
 
 void GameScene::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_A ||
-		event->key() == Qt::Key_S || 
+		event->key() == Qt::Key_D ||
 		event->key() == Qt::Key_W ||
 		event->key() == Qt::Key_Z	) {
 
 		player->key_move (event->key());
-	} 
+	}
+	if (event->key() == Qt::Key_Escape) {
+		Menu *menu = new Menu();
+		menu->setFixedWidth(view->width()/4);
+
+		menu->addAction("New Game", this, SLOT(new_game()));
+		menu->addAction("Save Game", this, SLOT(save_game()));
+		menu->addAction("Load Game", this, SLOT(load_game()));
+		menu->addSeparator();
+		menu->addAction("Exit Game", this, SLOT(game_over()));
+//		Form *form = new Form();
+//		form->show();
+		timer->stop();
+
+//		class test : public QWidget {
+//			public:
+//				QPushButton *upButton;
+//				test() {
+//					setFixedSize(250, 250);
+//					upButton = new QPushButton(tr("&Up"));
+//				}
+//		};
+
+        QWidget *a = new QWidget();
+		menu->exec(a->mapToGlobal(QPoint(this->view->pos().x() + view->width()/2 - menu->width()/2 + 40,
+										 this->view->pos().y() + view->height()/2)));
+		timer->start();
+	}
 	
 }
 
@@ -237,4 +270,8 @@ void GameScene::generate_scene_from_txt (const char filename[]) {
         }
     }
     file.close();
+}
+
+void GameScene::set_view(QGraphicsView *view) {
+	this->view = view;
 }

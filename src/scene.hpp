@@ -38,6 +38,7 @@ class GameScene: public QGraphicsScene {
     GameScene(const char filename[]);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouse_event) override;
     virtual void keyPressEvent(QKeyEvent *event) override;
+	void set_view(QGraphicsView *view);
 
     public slots:
     void monitor_game_state ();
@@ -45,6 +46,8 @@ class GameScene: public QGraphicsScene {
     private:
     Player *player;
     std::vector <Ghost *> ghosts;
+	QTimer * timer;
+	QGraphicsView *view;
     void shortest_path (QPoint start, QPoint stop, QList<QPoint> &path, QList<QPoint>::iterator &iter);
     void generate_scene_from_txt (const char filename []);
     qreal distance_between_points(const QPoint &start, const QPoint &stop);
@@ -52,7 +55,8 @@ class GameScene: public QGraphicsScene {
     int contains (QList<PathNode *> open, PathNode *s);
     bool is_valid_move (QPoint &pos);
     QPoint random_pos ();
-    
+
+private slots:
     void log ();
     void game_over ();
     void game_win ();

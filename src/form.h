@@ -12,10 +12,10 @@ class Form : public QWidget
     Q_OBJECT
 
 public:
-    explicit Form(QWidget *parent = nullptr);
+    explicit Form(QWidget *parent = nullptr, int x = 0, int y = 0);
     ~Form();
 
-private slots:
+public slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();

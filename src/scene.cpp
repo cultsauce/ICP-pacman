@@ -1,11 +1,12 @@
 #include "scene.hpp"
 #include "menu.h"
 #include <algorithm>
-#include <QPushButton>
 #include <iostream>
 #include <string>
 #include <fstream>
 #include "form.h"
+#include "game_over.h"
+#include "pause_menu.h"
 
 GameScene::GameScene (const char filename[]) {
     generate_scene_from_txt (filename);
@@ -121,31 +122,9 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 		player->key_move (event->key());
 	}
 	if (event->key() == Qt::Key_Escape) {
-		Menu *menu = new Menu();
-		menu->setFixedWidth(view->width()/4);
-
-		menu->addAction("New Game", this, SLOT(new_game()));
-		menu->addAction("Save Game", this, SLOT(save_game()));
-		menu->addAction("Load Game", this, SLOT(load_game()));
-		menu->addSeparator();
-		menu->addAction("Exit Game", this, SLOT(game_over()));
-//		Form *form = new Form();
-//		form->show();
-		timer->stop();
-
-//		class test : public QWidget {
-//			public:
-//				QPushButton *upButton;
-//				test() {
-//					setFixedSize(250, 250);
-//					upButton = new QPushButton(tr("&Up"));
-//				}
-//		};
-
-        QWidget *a = new QWidget();
-		menu->exec(a->mapToGlobal(QPoint(this->view->pos().x() + view->width()/2 - menu->width()/2 + 40,
-										 this->view->pos().y() + view->height()/2)));
-		timer->start();
+		Pause_menu *menu = new Pause_menu(view, timer);
+		menu->move(view->width() / 2 - menu->width()/2,view->height() / 2 - menu->height()/2);
+		menu->show();
 	}
 	
 }
@@ -168,12 +147,20 @@ void GameScene::log () {
 
 void GameScene::game_over () {
 	log_file.close();
-    exit(0);
+	Game_over *form = new Game_over(view);
+
+	form->move(view->width() / 2 - form->width()/2,view->height() / 2 - form->height()/2);
+	form->show();
+	timer->stop();
 }
 
 void GameScene::game_win () {
 	log_file.close();
-    exit(0);
+    Form *form = new Form(view);
+
+	form->move(view->width() / 2 - form->width()/2,view->height() / 2 - form->height()/2);
+	form->show();
+	timer->stop();
 }
 
 void GameScene::monitor_game_state () {
@@ -281,15 +268,4 @@ void GameScene::generate_scene_from_txt (const char filename[]) {
 
 void GameScene::set_view(QGraphicsView *view) {
 	this->view = view;
-}
-
-
-void GameScene::new_game() {
-
- }
-void GameScene::save_game() {
-
-}
-void GameScene::load_game() {
-    
 }

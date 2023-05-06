@@ -60,9 +60,6 @@ class GameScene: public QGraphicsScene {
     bool is_valid_move (QPoint &pos);
 
 private slots:
-    void new_game();
-	void save_game();
-	void load_game();
     void game_over ();
     void game_win ();
 };

@@ -18,6 +18,7 @@
 #include "Wall.h"
 #include "lock.h"
 #include "key.h"
+#include "pause_menu.h"
 
 #ifndef SCENE_HPP
 #define SCENE_HPP

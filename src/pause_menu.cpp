@@ -16,6 +16,7 @@ Pause_menu::~Pause_menu() {
 void Pause_menu::on_pushButton_clicked() {
 	this->hide();
 	timer->start();
+	delete this;
     // resume
 }
 

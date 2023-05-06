@@ -121,7 +121,7 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 
 		player->key_move (event->key());
 	}
-	if (event->key() == Qt::Key_Escape) {
+	if (event->key() == Qt::Key_Escape && timer->isActive()) {
 		Pause_menu *menu = new Pause_menu(view, timer);
 		menu->move(view->width() / 2 - menu->width()/2,view->height() / 2 - menu->height()/2);
 		menu->show();
@@ -199,7 +199,6 @@ int GameScene::contains(QList<PathNode *> open, PathNode *s) {
     }
     return -1;
 }
-
 
 void GameScene::generate_scene_from_txt (const char filename[]) {
     std::ifstream file (filename);

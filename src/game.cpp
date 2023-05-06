@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "pause_menu.h"
 
 Game::Game (int argc, char *argv[], const char filename []) {
     app = new QApplication(argc, argv);
@@ -14,7 +15,3 @@ int Game::run () {
 	scene->set_view(view);
     return app->exec();
 }
-
-//QPoint Game::location() {
-//	return view->pos();
-//}

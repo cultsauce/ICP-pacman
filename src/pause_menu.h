@@ -12,25 +12,35 @@ class Pause_menu : public QWidget
 {
     Q_OBJECT
 
-public:
-    explicit Pause_menu(QWidget *parent = nullptr, QTimer *timer = nullptr);
-    ~Pause_menu();
+    public:
+        /// Constructor of the pause menu
+        /// \param parent parent widget
+        /// \param timer global timer
+        explicit Pause_menu(QWidget *parent = nullptr, QTimer *timer = nullptr);
 
-private:
-	QTimer *timer;
+        /// Destructor of the pause menu
+        ~Pause_menu();
 
-private slots:
+    private:
+        /// Global timer
+        QTimer *timer;
 
-    void on_pushButton_clicked();
+    private slots:
 
-    void on_pushButton_2_clicked();
+        /// Handles resume button click
+        void on_pushButton_clicked();
 
-    void on_pushButton_3_clicked();
+        /// Handles replay button click
+        void on_pushButton_2_clicked();
 
-    void on_pushButton_4_clicked();
+        /// Handles restart button click
+        void on_pushButton_3_clicked();
 
-private:
-    Ui::Pause_menu *ui;
+        /// Handles exit button click
+        void on_pushButton_4_clicked();
+
+    private:
+        Ui::Pause_menu *ui;
 };
 
 #endif // PAUSE_MENU_H

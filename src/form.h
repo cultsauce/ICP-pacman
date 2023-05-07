@@ -7,21 +7,29 @@ namespace Ui {
 class Form;
 }
 
-class Form : public QWidget
-{
+class Form : public QWidget {
     Q_OBJECT
 
-public:
-    explicit Form(QWidget *parent = nullptr, int x = 0, int y = 0);
-    ~Form();
+    public:
+        /// Constructor of the form
+        /// \param parent parent widget
+        /// \param x x position of the form
+        /// \param y y position of the form
+        explicit Form(QWidget *parent = nullptr, int x = 0, int y = 0);
 
-public slots:
-    void on_pushButton_clicked();
+        /// Destructor of the form
+        ~Form();
 
-    void on_pushButton_2_clicked();
+    public slots:
+        /// Handles restart button click
+        void on_pushButton_clicked();
 
-private:
-    Ui::Form *ui;
+        /// Handles exit button click
+        void on_pushButton_2_clicked();
+
+    private:
+        /// UI of the form
+        Ui::Form *ui;
 };
 
 #endif // FORM_H

@@ -13,17 +13,18 @@
 #define GHOST_STEP_SIZE 5
 
 class Ghost : public QObject, public QGraphicsPixmapItem {
-	Q_OBJECT public:
-		QList<QPoint> shortest_path;
-		QList<QPoint>::iterator s_path_iter;
+	Q_OBJECT
+    public:
+        QList<QPoint> shortest_path;
+        QList<QPoint>::iterator s_path_iter;
 
-		Ghost(QGraphicsItem *parent=nullptr, int size=50);
-		void move();
+        Ghost(QGraphicsItem *parent=nullptr, int size=50);
+        void move();
 
-	private:
-		QList<QGraphicsItem *> colliding_items;
-		QPixmap * pixmap;
-		QPoint direction;
+    private:
+        QList<QGraphicsItem *> colliding_items;
+        QPixmap * pixmap;
+        QPoint direction;
 };
 
 #endif //QTTEST_GHOST_H

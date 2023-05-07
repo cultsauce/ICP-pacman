@@ -1,5 +1,4 @@
 #include "scene.hpp"
-#include "menu.h"
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -9,6 +8,7 @@
 #include "pause_menu.h"
 
 GameScene::GameScene (const char filename[]) {
+<<<<<<< HEAD
 //    replay ("log.txt");
 //    replay_mode = true;
     
@@ -21,6 +21,13 @@ GameScene::GameScene (const char filename[]) {
     }
     generate_scene_from_txt (file);
     file.close ();
+=======
+    generate_scene_from_txt (filename);
+
+    std::time_t t = std::time(nullptr);
+    std::string log_filename = "log_" + std::to_string(t) + ".txt";
+	log_file.open(log_filename);
+>>>>>>> f548508cc74547ba59c14f2de0dffd6e0cd42182
 
     timer = new QTimer(this);
 	QTimer * global_timer = new QTimer(this);
@@ -28,6 +35,10 @@ GameScene::GameScene (const char filename[]) {
 	timer->start(50);
 
     srand(time(NULL));
+}
+
+GameScene::~GameScene () {
+    log_file.close();
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *mouse_event) {

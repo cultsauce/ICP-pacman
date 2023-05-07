@@ -7,21 +7,27 @@ namespace Ui {
 class Game_over;
 }
 
-class Game_over : public QWidget
-{
+class Game_over : public QWidget {
     Q_OBJECT
 
-public:
-    explicit Game_over(QWidget *parent = nullptr);
-    ~Game_over();
+    public:
+        /// Constructor of the game over menu
+        /// \param parent parent widget
+        explicit Game_over(QWidget *parent = nullptr);
 
-public slots:
-    void on_pushButton_clicked();
+        /// Destructor of the game over menu
+        ~Game_over();
 
-    void on_pushButton_2_clicked();
+    public slots:
+        /// Handles restart button click
+        void on_pushButton_clicked();
 
-private:
-    Ui::Game_over *ui;
+        /// Handles exit button click
+        void on_pushButton_2_clicked();
+
+    private:
+        /// UI of the game over menu
+        Ui::Game_over *ui;
 };
 
 #endif // GAME_OVER_H

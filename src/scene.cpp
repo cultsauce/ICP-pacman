@@ -1,5 +1,4 @@
 #include "scene.hpp"
-#include "menu.h"
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -11,7 +10,9 @@
 GameScene::GameScene (const char filename[]) {
     generate_scene_from_txt (filename);
 
-	log_file.open("log.txt");
+    std::time_t t = std::time(nullptr);
+    std::string log_filename = "log_" + std::to_string(t) + ".txt";
+	log_file.open(log_filename);
 
     timer = new QTimer(this);
 	QTimer * global_timer = new QTimer(this);
@@ -19,6 +20,10 @@ GameScene::GameScene (const char filename[]) {
 	timer->start(50);
 
     srand(time(NULL));
+}
+
+GameScene::~GameScene () {
+    log_file.close();
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *mouse_event) {

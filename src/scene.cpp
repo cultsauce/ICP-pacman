@@ -9,9 +9,18 @@
 #include "pause_menu.h"
 
 GameScene::GameScene (const char filename[]) {
-    generate_scene_from_txt (filename);
-
+//    replay ("log.txt");
+//    replay_mode = true;
+    
 	log_file.open("log.txt");
+    replay_mode = false;
+
+    std::ifstream file (filename);
+    if (!file.is_open()) {
+        exit (EXIT_FAILURE);
+    }
+    generate_scene_from_txt (file);
+    file.close ();
 
     timer = new QTimer(this);
 	QTimer * global_timer = new QTimer(this);
@@ -22,7 +31,7 @@ GameScene::GameScene (const char filename[]) {
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *mouse_event) {
-	if (mouse_event->button () == Qt::LeftButton) {
+	if (mouse_event->button () == Qt::LeftButton && !replay_mode) {
         int dest_tile_x = static_cast<int>(mouse_event->scenePos().x() / BLOCK_SIZE) * BLOCK_SIZE;
         int dest_tile_y = static_cast<int>(mouse_event->scenePos().y() / BLOCK_SIZE) * BLOCK_SIZE;
 
@@ -34,7 +43,7 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *mouse_event) {
         if (!is_valid_move(dest)) return;
 
         shortest_path (source, dest, player->shortest_path, player->s_path_iter);
-        player->start_timer ();
+        player->follow_path = true;
 	}
 	else mouse_event->ignore ();
 }
@@ -114,13 +123,36 @@ bool GameScene::is_valid_move (QPoint &pos) {
 }
 
 void GameScene::keyPressEvent(QKeyEvent *event) {
-	if (event->key() == Qt::Key_A ||
+    if (replay_mode) {
+        if (event->key() == Qt::Key_A) {
+            player->setPos(replayer->player_prev_pos ());
+            QList<QPoint> ghost_pos = replayer->ghost_prev_pos ();
+            QList<QPoint>::iterator ghost_iter = ghost_pos.begin();
+            for (Ghost *ghost:ghosts) {
+                ghost->setPos (*ghost_iter);
+                ghost_iter = std::next (ghost_iter, 1);
+            }
+            key->setVisible (!replayer->key_prev_pos());
+        }
+		else if (event->key() == Qt::Key_D) {
+            player->setPos(replayer->player_next_pos ());
+            QList<QPoint> ghost_pos = replayer->ghost_next_pos ();
+            QList<QPoint>::iterator ghost_iter = ghost_pos.begin();
+            for (Ghost *ghost:ghosts) {
+                ghost->setPos (*ghost_iter);
+                ghost_iter = std::next (ghost_iter, 1);
+            }
+            key->setVisible (!replayer->key_next_pos());
+        }
+    }
+	else if (event->key() == Qt::Key_A ||
 		event->key() == Qt::Key_D ||
 		event->key() == Qt::Key_W ||
 		event->key() == Qt::Key_Z	) {
 
 		player->key_move (event->key());
 	}
+
 	if (event->key() == Qt::Key_Escape && timer->isActive()) {
 		Pause_menu *menu = new Pause_menu(view, timer);
 		menu->move(view->width() / 2 - menu->width()/2,view->height() / 2 - menu->height()/2);
@@ -137,12 +169,22 @@ QPoint GameScene::random_pos () {
 }
 
 void GameScene::log () {
-	log_file << "player: " << player->pos().x() << " " << player->pos().y() << std::endl;
+	log_file << "p " << player->pos().x() << " " << player->pos().y() << std::endl;
 	for (Ghost *ghost: ghosts) {
-		log_file << "ghost: " << ghost->pos().x() << " " << ghost->pos().y() << std::endl;
+		log_file << "g " << ghost->pos().x() << " " << ghost->pos().y() << std::endl;
 	}
-	log_file << "key: " << (player->found_key ? "true" : "false") << std::endl;
+	log_file << "k " << (player->found_key ? "true" : "false") << std::endl;
 	log_file << std::endl;
+}
+
+void GameScene::replay (const char log_file[]) {
+    std::ifstream logfile (log_file);
+    if (!logfile.is_open ()) {
+        exit (EXIT_FAILURE);
+    }
+    generate_scene_from_txt (logfile);
+    replayer = new Replayer (logfile);
+    logfile.close ();
 }
 
 void GameScene::game_over () {
@@ -164,6 +206,8 @@ void GameScene::game_win () {
 }
 
 void GameScene::monitor_game_state () {
+    if (player->follow_path) player->shortest_path_move ();
+    
     for (Ghost *ghost:ghosts) {
         if (ghost->s_path_iter == ghost->shortest_path.end()) {
             int source_tile_x = static_cast<int>(ghost->scenePos().x() / BLOCK_SIZE) * BLOCK_SIZE;
@@ -200,19 +244,14 @@ int GameScene::contains(QList<PathNode *> open, PathNode *s) {
     return -1;
 }
 
-void GameScene::generate_scene_from_txt (const char filename[]) {
-    std::ifstream file (filename);
-    if (!file.is_open()) {
-        exit (EXIT_FAILURE);
-    }
-
+void GameScene::generate_scene_from_txt (std::ifstream &file) {
     std::string line;
     int i = 0;
     getline(file, line);
     while (isdigit(line[i++]));
 
-    width = atoi(line.substr(0, i).c_str());
-    height = atoi(line.substr(i, std::string::npos).c_str());
+    width = std::stoi(line.substr(0, i));
+    height = std::stoi(line.substr(i, std::string::npos));
 
     this->setSceneRect(0, 0, width * BLOCK_SIZE, height * BLOCK_SIZE);
     this->setBackgroundBrush(QBrush(Qt::black));
@@ -232,7 +271,7 @@ void GameScene::generate_scene_from_txt (const char filename[]) {
                     break;
                 }
                 case 'K': {
-                    Key *key = new Key (nullptr, BLOCK_SIZE);
+                    key = new Key (nullptr, BLOCK_SIZE);
                     key->setPos(j *BLOCK_SIZE, i *BLOCK_SIZE);
                     this->addItem(key);
                     break;
@@ -262,7 +301,6 @@ void GameScene::generate_scene_from_txt (const char filename[]) {
             }
         }
     }
-    file.close();
 }
 
 void GameScene::set_view(QGraphicsView *view) {

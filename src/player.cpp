@@ -6,20 +6,8 @@ Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	direction.rx() = STEP_SIZE;
 	direction.ry() = 0;
 	found_key = false;
+	follow_path = false;
 	num_lives = 3;
-
-	path_timer = new QTimer(this);
-    connect(path_timer, SIGNAL(timeout()), this, SLOT(shortest_path_move()));
-}
-
-bool Player::start_timer () {
-	path_timer->start(100);
-	return true;
-}
-
-bool Player::stop_timer () {
-	path_timer->stop();
-	return true;
 }
 
 void Player::move () {
@@ -35,7 +23,7 @@ void Player::move () {
 }
 
 void Player::key_move (int key) {
-	stop_timer();
+	follow_path = false;
 	if (key == Qt::Key_A) {
 		direction.rx() = -STEP_SIZE;
 		direction.ry() = 0;
@@ -67,7 +55,7 @@ void Player::shortest_path_move () {
 	if (pos() == *s_path_iter) s_path_iter = std::next(s_path_iter, 1);
 	
 	if (s_path_iter == shortest_path.end()) {
-		stop_timer ();
+		follow_path = false;
 		return;
 	}
 	direction.rx() = 0;

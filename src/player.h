@@ -19,7 +19,7 @@ class Player : public QObject, public QGraphicsPixmapItem {
 		QList<QPoint> shortest_path;
 		QList<QPoint>::iterator s_path_iter;
 
-		bool found_key;
+		bool found_key, follow_path;
 		int num_lives;
 
 		Player(QGraphicsItem *parent=nullptr, int size=50);

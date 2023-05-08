@@ -10,7 +10,7 @@ default: pacman
 pacman:
 	mkdir -p build
 	cd build && cmake ..
-	cmake --build build --config Release
+	cmake --build build --config Release -j 8
 	cp build/pacman .
 
 run: pacman
@@ -26,4 +26,4 @@ clean:
 
 pack: clean
 	mkdir doc
-	zip -r xkubin27-xkalen07.zip src/ Resources/ doc/ Makefile CMakeLists.txt README.md
+	zip -r xkalen07-xkubin27.zip src/ Resources/ doc/ examples/ Makefile CMakeLists.txt README.txt

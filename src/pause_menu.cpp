@@ -3,7 +3,7 @@
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#include "pause_menu.h"
+#include "pause_menu.hpp"
 #include "ui_pause_menu.h"
 
 Pause_menu::Pause_menu(QWidget *parent, QTimer *timer, Game *game) :

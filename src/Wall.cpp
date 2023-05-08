@@ -3,7 +3,7 @@
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#include "Wall.h"
+#include "Wall.hpp"
 
 Wall::Wall(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	pixmap = new QPixmap("Resources/images/wall.jpg");

@@ -3,12 +3,13 @@
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#include "heart.h"
+#include "heart.hpp"
 
 Heart::Heart(QGraphicsItem *parent, int size) {
-	setPixmap(QPixmap("Resources/images/heart.png").scaled(size, size));
+	pixmap = new QPixmap("Resources/images/heart.png");
+	setPixmap(pixmap->scaled(size, size));
 }
 
 Heart::~Heart() {
-
+	delete pixmap;
 }

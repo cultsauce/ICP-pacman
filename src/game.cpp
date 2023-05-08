@@ -4,19 +4,18 @@
 /// \date 08.05.2023
 
 #include "game.hpp"
-#include "start.h"
+#include "start.hpp"
 #include <QDesktopWidget>
 #include <QStyle>
 
 Game::Game (int argc, char *argv[]) {
 	this->argc = argc;
 	this->argv = argv;
-	app = nullptr;
-	option = 0;
 	map = nullptr;
 }
 
 int Game::init() {
+	option = 0;
 	app = new QApplication(argc, argv);
 	Start *start = new Start(nullptr, this);
 	start->setFixedSize(500, 500);
@@ -30,18 +29,16 @@ int Game::init() {
 	return app->exec();
 }
 
-//Game::~Game () {
-////	delete scene;
-////	delete view;
-////	delete app;
-//}
+Game::~Game () {
+	delete scene;
+	delete view;
+	delete app;
+}
 
 void Game::start() {
 	app->setQuitOnLastWindowClosed(true);
 
-	if (app == nullptr) {
-		app = new QApplication(argc, argv);
-	}
+	if (app == nullptr) app = new QApplication(argc, argv);
 
 	if (option == 1) {
 		scene = new GameScene(map, this, false, true, false);

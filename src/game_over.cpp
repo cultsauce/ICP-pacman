@@ -3,7 +3,7 @@
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#include "game_over.h"
+#include "game_over.hpp"
 #include "ui_game_over.h"
 
 Game_over::Game_over(QWidget *parent, Game *game) :
@@ -19,8 +19,9 @@ Game_over::~Game_over() {
 
 void Game_over::on_pushButton_clicked() {
 	this->hide();
-	delete this;
 	game->restart();
+	delete this;
+	//restart
 }
 
 void Game_over::on_pushButton_2_clicked() {

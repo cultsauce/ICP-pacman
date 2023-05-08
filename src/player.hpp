@@ -1,10 +1,10 @@
-/// \file player.h
+/// \file player.hpp
 /// \brief This file contains the declaration of the Player class used for the Pacman.
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#ifndef QTTEST_PLAYER_H
-#define QTTEST_PLAYER_H
+#ifndef QTTEST_PLAYER_HPP
+#define QTTEST_PLAYER_HPP
 
 #include <QObject>
 #include <QList>
@@ -15,7 +15,7 @@
 #include <QDebug>
 #include <QGraphicsView>
 
-#include "Wall.h"
+#include "Wall.hpp"
 
 #define STEP_SIZE 10
 #define BLOCK_SIZE 50
@@ -75,6 +75,9 @@ class Player : public QObject, public QGraphicsPixmapItem {
 
 		/// Size of the player, always a square
 		int size;
+
+		/// Pixmap of the player
+		QPixmap * pixmap;
 };
 
-#endif //QTTEST_PLAYER_H
+#endif //QTTEST_PLAYER_HPP

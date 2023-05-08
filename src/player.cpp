@@ -3,12 +3,13 @@
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#include "player.h"
+#include "player.hpp"
 #include <iostream>
 
 
 Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
-	setPixmap(QPixmap("Resources/images/pacman.png").scaled(size, size));
+	pixmap = new QPixmap("Resources/images/pacman.png");
+	setPixmap(pixmap->scaled(size, size));
 	direction.rx() = STEP_SIZE;
 	direction.ry() = 0;
 	found_key = false;
@@ -21,7 +22,7 @@ Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 }
 
 Player::~Player() {
-
+	delete pixmap;
 }
 
 void Player::move () {

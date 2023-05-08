@@ -3,7 +3,7 @@
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#include "start.h"
+#include "start.hpp"
 #include "ui_start.h"
 #include "game.hpp"
 
@@ -24,6 +24,7 @@ void Start::on_pushButton_clicked() {
 	if (game->map == nullptr) {
 		return;
 	}
+
 	this->hide();
 	game->option = 1;
 	game->restart();
@@ -50,8 +51,7 @@ void Start::on_pushButton_3_clicked() {
 }
 
 void Start::open_file() {
-	QString filename = nullptr;
-	filename =  QFileDialog::getOpenFileName(
+	QString filename =  QFileDialog::getOpenFileName(
           this,
           "Open File",
           QDir::currentPath(),

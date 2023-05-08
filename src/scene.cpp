@@ -17,11 +17,11 @@ GameScene::GameScene (const char filename[], Game *game, bool start, bool normal
 
 		std::ifstream file(filename);
 		if (!file.is_open()) {
+			std::cerr << "Error: Unable to open file " << filename << std::endl;
 			exit(EXIT_FAILURE);
 		}
 
 		init_log(file);
-
 		generate_scene_from_txt(file);
 
 		timer = new QTimer(this);
@@ -68,7 +68,7 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *mouse_event) {
         shortest_path (source, dest, player->shortest_path, player->s_path_iter);
         player->follow_path = true;
 	}
-	else mouse_event->ignore ();
+	else mouse_event->ignore();
 }
 
 qreal GameScene::distance_between_points (const QPoint &start, const QPoint &stop) {
@@ -146,7 +146,7 @@ bool GameScene::is_valid_move (QPoint &pos) {
 }
 
 void GameScene::keyPressEvent(QKeyEvent *event) {
-    if (replay_mode) {
+    if (replay_mode && !game->menu_open) {
         if (event->key() == Qt::Key_A) {
             player->setPos(replayer->player_prev_pos ());
             QList<QPoint> ghost_pos = replayer->ghost_prev_pos ();
@@ -167,13 +167,14 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 	        }
 	        key->setVisible(!replayer->key_next_pos());
         }
-    } else if (event->key() == Qt::Key_A ||
+    } else if (!game->menu_open) {
+		if (event->key() == Qt::Key_A ||
 		event->key() == Qt::Key_D ||
 		event->key() == Qt::Key_W ||
-		event->key() == Qt::Key_Z	) {
-
-		player->key_move (event->key());
-	}
+		event->key() == Qt::Key_Z) {
+			player->key_move(event->key());
+		}
+	} else event->ignore();
 
 	if(replay_mode) {
 		if (event->key() == Qt::Key_Escape && !game->menu_open) {
@@ -182,14 +183,15 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 
 			menu->move(view->width() / 2 - menu->width()/2,view->height() / 2 - menu->height()/2);
 			menu->show();
-		}
+		} else event->ignore();
 	} else {
 		if (event->key() == Qt::Key_Escape && timer->isActive()) {
-			Pause_menu *menu = new Pause_menu(view, timer);
+			Pause_menu *menu = new Pause_menu(view, timer, game);
+			game->menu_open = true;
 
 			menu->move(view->width() / 2 - menu->width() / 2, view->height() / 2 - menu->height() / 2);
 			menu->show();
-		}
+		} else event->ignore();
 	}
 	
 }
@@ -222,19 +224,19 @@ void GameScene::replay (const char log_file[]) {
 
 void GameScene::game_over () {
 	log_file.close();
-	Game_over *form = new Game_over(view);
+	Game_over *Victory = new Game_over(view);
 
-	form->move(view->width() / 2 - form->width()/2,view->height() / 2 - form->height()/2);
-	form->show();
+	Victory->move(view->width() / 2 - Victory->width()/2,view->height() / 2 - Victory->height()/2);
+	Victory->show();
 	timer->stop();
 }
 
 void GameScene::game_win () {
 	log_file.close();
-    Form *form = new Form(view);
+    Victory *victory = new Victory(view);
 
-	form->move(view->width() / 2 - form->width()/2,view->height() / 2 - form->height()/2);
-	form->show();
+	victory->move(view->width() / 2 - victory->width()/2,view->height() / 2 - victory->height()/2);
+	victory->show();
 	timer->stop();
 }
 
@@ -259,7 +261,6 @@ void GameScene::monitor_game_state () {
 				player->is_invincible = true;
 				player->i_ticks = 15;
 			} else if (!player->is_invincible) {
-				qDebug() << "gameover";
 				game_over();
 			}
         }
@@ -269,7 +270,6 @@ void GameScene::monitor_game_state () {
             delete item;
         }
         else if (typeid(*item) == typeid(Lock) && player->found_key) {
-            qDebug() << "winwin";
             game_win();
         }
     }

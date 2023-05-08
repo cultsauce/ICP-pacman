@@ -1,10 +1,10 @@
-/// \file game_over.h
+/// \file game_over.hpp
 /// \brief This file contains the declaration of the Game_over class used for game over screen.
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#ifndef GAME_OVER_H
-#define GAME_OVER_H
+#ifndef GAME_OVER_HPP
+#define GAME_OVER_HPP
 
 #include <QWidget>
 #include "game.hpp"
@@ -19,6 +19,7 @@ class Game_over : public QWidget {
     public:
         /// Constructor of the game over menu
         /// \param parent parent widget
+        /// \param game the game
         explicit Game_over(QWidget *parent = nullptr, Game *game = nullptr);
 
         /// Destructor of the game over menu
@@ -39,4 +40,4 @@ class Game_over : public QWidget {
 		Game *game;
 };
 
-#endif // GAME_OVER_H
+#endif // GAME_OVER_HPP

@@ -3,8 +3,8 @@
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#include "lock.h"
-#include "player.h"
+#include "lock.hpp"
+#include "player.hpp"
 #include <QDebug>
 #include <QApplication>
 

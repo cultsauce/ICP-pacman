@@ -1,10 +1,10 @@
-/// \file start.h
+/// \file start.hpp
 /// \brief This file contains the declaration of the Start class used for start menu.
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#ifndef START_H
-#define START_H
+#ifndef START_HPP
+#define START_HPP
 
 #include <QWidget>
 #include "game.hpp"
@@ -47,6 +47,8 @@ class Start : public QWidget
 	private:
 		/// UI of the start menu
 	    Ui::Start *ui;
+
+		QString map;
 };
 
-#endif // START_H
+#endif // START_HPP

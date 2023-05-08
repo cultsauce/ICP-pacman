@@ -1,4 +1,4 @@
-/// \file pause_menu.h
+/// \file pause_menu.hpp
 /// \brief This file contains the declaration of the Pause_menu class used for pause menu.
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
@@ -14,14 +14,14 @@ namespace Ui {
 class Pause_menu;
 }
 
-class Pause_menu : public QWidget
-{
+class Pause_menu : public QWidget {
     Q_OBJECT
 
     public:
         /// Constructor of the pause menu
         /// \param parent parent widget
         /// \param timer global timer
+        /// \param game the game
         explicit Pause_menu(QWidget *parent = nullptr, QTimer *timer = nullptr, Game *game = nullptr);
 
         /// Destructor of the pause menu

@@ -1,10 +1,10 @@
-/// \file Wall.h
+/// \file Wall.hpp
 /// \brief This file contains the declaration of the Wall class used for the walls in the game.
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#ifndef QTTEST_WALL_H
-#define QTTEST_WALL_H
+#ifndef QTTEST_WALL_HPP
+#define QTTEST_WALL_HPP
 
 #include <QGraphicsRectItem>
 #include <QList>
@@ -26,4 +26,4 @@ class Wall : public QObject, public QGraphicsPixmapItem {
         QPixmap * pixmap;
 };
 
-#endif //QTTEST_WALL_H
+#endif //QTTEST_WALL_HPP

@@ -12,7 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include "ghost.hpp"
-#include "player.h"
+#include "player.hpp"
 
 class Replayer {
     private:
@@ -47,6 +47,9 @@ class Replayer {
 		/// Constructor
 		/// \param logfile file stream of the log file
         Replayer (std::ifstream &logfile);
+
+		/// Destructor
+		~Replayer () = default;
 
 		/// Sets the next position of the player
 		/// \return QPoint indicating the next position

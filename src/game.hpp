@@ -30,11 +30,10 @@ class Game {
         /// Constructor of the game
         /// \param argc number of arguments
         /// \param argv arguments
-        /// \param filename file with the map
         Game (int argc, char *argv[]);
 
 		/// Destructor of the game
-//		~Game ();
+		~Game ();
 
         /// Runs the game
         /// \return exit code
@@ -55,11 +54,13 @@ class Game {
 		/// option is 1 if the game is normal mode, 2 if the game is in replay mode
 		int option;
 
-		/// Map file name
-		const char *map;
-
+		/// menu_open is true if the menu is open
 		/// indicate if menu is already open
 		bool menu_open;
+
+		/// Filename of the map
+		const char *map;
+
 
     private:
         /// Qt application
@@ -76,5 +77,6 @@ class Game {
 
 		/// Arguments
 		char **argv;
+
 };
 #endif // GAME_HPP

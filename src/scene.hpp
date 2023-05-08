@@ -10,17 +10,17 @@ class GameScene;
 #define BLOCK_SIZE 50
 
 #include <ctime>
-#include "player.h"
+#include "player.hpp"
 #include "ghost.hpp"
-#include "Wall.h"
-#include "lock.h"
-#include "key.h"
-#include "pause_menu.h"
+#include "Wall.hpp"
+#include "lock.hpp"
+#include "key.hpp"
+#include "pause_menu.hpp"
 #include "game.hpp"
 #include "replayer.hpp"
-#include "heart.h"
-#include "form.h"
-#include "game_over.h"
+#include "heart.hpp"
+#include "victory.hpp"
+#include "game_over.hpp"
 
 /// structure representing a node during pathfinding
 typedef struct path_node {
@@ -45,6 +45,9 @@ class GameScene: public QGraphicsScene {
         /// Constructor of the main scene
         /// \param filename file with the map
         /// \param game pointer to the game
+        /// \param start indicates if the game is being started
+        /// \param normal indicates if the game is in normal mode
+        /// \param replay indicates if the game is in replay mode
         GameScene(const char filename[], Game *game, bool start, bool normal, bool replay);
 
         /// Destructor of the main scene

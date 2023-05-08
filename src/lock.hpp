@@ -1,10 +1,10 @@
-/// \file lock.h
+/// \file lock.hpp
 /// \brief This file contains the declaration of the Lock class used for the lock object.
 /// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
 /// \date 08.05.2023
 
-#ifndef QTTEST_LOCK_H
-#define QTTEST_LOCK_H
+#ifndef QTTEST_LOCK_HPP
+#define QTTEST_LOCK_HPP
 
 #include <QGraphicsRectItem>
 #include <QList>
@@ -27,4 +27,4 @@ class Lock : public QObject, public QGraphicsPixmapItem {
         QPixmap * pixmap;
 };
 
-#endif //QTTEST_LOCK_H
+#endif //QTTEST_LOCK_HPP

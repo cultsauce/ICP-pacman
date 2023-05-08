@@ -58,6 +58,7 @@ void Start::open_file() {
           "All files (*.*) ;; Text files (*.txt);; Log files (*.log)"
     );
 	if (!filename.isNull()) {
-		game->map = filename.toUtf8();
+		std::string *wtf = new std::string (filename.toUtf8().constData());
+		game->map = wtf->c_str();
 	}
 }

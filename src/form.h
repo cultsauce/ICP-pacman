@@ -2,6 +2,7 @@
 #define FORM_H
 
 #include <QWidget>
+#include "game.hpp"
 
 namespace Ui {
 class Form;
@@ -15,10 +16,13 @@ class Form : public QWidget {
         /// \param parent parent widget
         /// \param x x position of the form
         /// \param y y position of the form
-        explicit Form(QWidget *parent = nullptr, int x = 0, int y = 0);
+        explicit Form(QWidget *parent = nullptr, Game *game = nullptr);
 
         /// Destructor of the form
         ~Form();
+
+		/// Game
+		Game *game;
 
     public slots:
         /// Handles restart button click

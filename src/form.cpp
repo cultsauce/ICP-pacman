@@ -1,11 +1,12 @@
 #include "form.h"
 #include "ui_form.h"
 
-Form::Form(QWidget *parent, int x, int y) :
+Form::Form(QWidget *parent, Game *game) :
     QWidget(parent),
     ui(new Ui::Form)
 {
     ui->setupUi(this);
+	this->game = game;
 }
 
 Form::~Form() {
@@ -13,7 +14,10 @@ Form::~Form() {
 }
 
 void Form::on_pushButton_clicked() {
-	exit(1);
+	this->hide();
+	game->restart();
+	delete this;
+    //restart
 }
 
 void Form::on_pushButton_2_clicked() {

@@ -29,7 +29,7 @@ class Game {
         Game (int argc, char *argv[], const char filename[]);
 
 		/// Destructor of the game
-		~Game ();
+//		~Game ();
 
         /// Runs the game
         /// \return exit code

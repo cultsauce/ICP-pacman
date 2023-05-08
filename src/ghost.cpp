@@ -11,6 +11,10 @@ Ghost::Ghost(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	s_path_iter = shortest_path.end();
 }
 
+Ghost::~Ghost() {
+	delete pixmap;
+}
+
 void Ghost::move() {
 	if (pos() == *s_path_iter) s_path_iter = std::next(s_path_iter, 1);
 	

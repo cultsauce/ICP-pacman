@@ -24,11 +24,11 @@ int Game::init() {
 	return app->exec();
 }
 
-Game::~Game () {
-//	delete scene;
-//	delete view;
-//	delete app;
-}
+//Game::~Game () {
+////	delete scene;
+////	delete view;
+////	delete app;
+//}
 
 void Game::start() {
 	app->setQuitOnLastWindowClosed(true);

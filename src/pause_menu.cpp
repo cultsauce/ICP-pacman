@@ -7,10 +7,7 @@ Pause_menu::Pause_menu(QWidget *parent, QTimer *timer, Game *game) :
 {
 	this->timer = timer;
 	this->game = game;
-	std::cout << "Pause menu created" << std::endl;
     ui->setupUi(this);
-
-	std::cout << "Pause menu created phase 2" << std::endl;
 	if (timer != nullptr)
 		timer->stop();
 }

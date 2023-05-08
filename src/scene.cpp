@@ -8,8 +8,8 @@
 
 GameScene::GameScene (const char filename[], Game *game, bool start, bool normal, bool repl) {
 	if (repl) {
+		replay_mode = true;
 	    replay(game->map);
-	    replay_mode = true;
 	} else if (normal) {
 		replay_mode = false;
 
@@ -22,14 +22,13 @@ GameScene::GameScene (const char filename[], Game *game, bool start, bool normal
 
 		generate_scene_from_txt(file);
 
-		this->game = game;
-
 		timer = new QTimer(this);
 		connect(timer, SIGNAL(timeout()), this, SLOT(monitor_game_state()));
 		timer->start(50);
 
 		srand(time(NULL));
 	}
+	this->game = game;
 	game->menu_open = false;
 }
 
@@ -165,19 +164,17 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 	        }
 	        key->setVisible(!replayer->key_next_pos());
         }
-    }
-	else if (event->key() == Qt::Key_A ||
+    } else if (event->key() == Qt::Key_A ||
 		event->key() == Qt::Key_D ||
 		event->key() == Qt::Key_W ||
 		event->key() == Qt::Key_Z	) {
 
-		player->step_count++;
 		player->key_move (event->key());
-		this->update_steps();
 	}
 
 	if(replay_mode) {
 		if (event->key() == Qt::Key_Escape && !game->menu_open) {
+			std::cout << "pause" << std::endl;
 			Pause_menu *menu = new Pause_menu(view, nullptr, game);
 			game->menu_open = true;
 
@@ -277,6 +274,7 @@ void GameScene::monitor_game_state () {
 	if (player->is_invincible) {
 		player->i_ticks > 0 ? player->i_ticks-- : player->is_invincible = false;
 	}
+	this->update_steps();
     log ();
 }
 
@@ -346,17 +344,19 @@ void GameScene::generate_scene_from_txt (std::ifstream &file) {
             }
         }
     }
-	heart = new Heart(nullptr, BLOCK_SIZE);
-	heart->setPos(10, 0);
-	this->addItem(heart);
+	if (!replay_mode) {
+		heart = new Heart(nullptr, BLOCK_SIZE);
+		heart->setPos(10, 0);
+		this->addItem(heart);
 
-	text = new QGraphicsTextItem(nullptr);
-	text->setHtml("<html><head/><body><p><span style=\" font-size:14pt;\">0</span></p></body></html>");
-	QColor color = QColor();
-	color.setGreen(180);
-	text->setDefaultTextColor(color);
-	this->addItem(text);
-	text->setPos(60,0);
+		text = new QGraphicsTextItem(nullptr);
+		text->setHtml("<html><head/><body><p><span style=\" font-size:14pt;\">0</span></p></body></html>");
+		QColor color = QColor();
+		color.setGreen(180);
+		text->setDefaultTextColor(color);
+		this->addItem(text);
+		text->setPos(60, 0);
+	}
 }
 
 void GameScene::set_view(QGraphicsView *view) {

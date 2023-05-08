@@ -27,6 +27,7 @@ void Player::move () {
 	transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
 	setTransform(transform);
 	setPos(pos() + direction);
+	step_count++;
 }
 
 void Player::key_move (int key) {

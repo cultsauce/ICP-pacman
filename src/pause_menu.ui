@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>154</width>
-    <height>207</height>
+    <height>156</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@
      <x>0</x>
      <y>0</y>
      <width>150</width>
-     <height>201</height>
+     <height>151</height>
     </rect>
    </property>
    <property name="title">
@@ -47,7 +47,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Replay</string>
+     <string>Restart</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -55,19 +55,6 @@
      <rect>
       <x>0</x>
       <y>100</y>
-      <width>150</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Restart</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>150</y>
       <width>150</width>
       <height>51</height>
      </rect>

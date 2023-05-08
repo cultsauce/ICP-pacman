@@ -15,78 +15,56 @@
 #define BLOCK_SIZE 50
 
 class Player : public QObject, public QGraphicsPixmapItem {
-<<<<<<< HEAD
 	Q_OBJECT public:
+		/// List of points that the player will follow on mouse click
 		QList<QPoint> shortest_path;
+		/// Iterator for the list of points
 		QList<QPoint>::iterator s_path_iter;
 
-		bool found_key, follow_path;
+		/// Indicates if the player has found the key
+		bool found_key;
+
+		/// Indicates if the player used mouse click to move
+		bool follow_path;
+
+		/// Number of lives of the player
 		int num_lives;
 
+		/// Number of steps the player has taken
+		int step_count;
+
+		/// Indicates if the player is invincible
+		bool is_invincible;
+
+		/// Number of ticks the player is invincible for
+		int i_ticks;
+
+		/// Constructor
+		/// \param parent parent QGraphicsItem
+		/// \param size size of the player
 		Player(QGraphicsItem *parent=nullptr, int size=50);
+
+		/// Destructor
+		~Player();
+
+		/// Moves the player
 		void move();
-		bool start_timer ();
-		bool stop_timer ();
+
+		/// Handles key press events
 		void key_move (int key);
+
+		/// Scene of the player
 		QGraphicsScene *parent_scene;
 	public slots:
+		/// Moves the player along the shortest path
 		void shortest_path_move ();
 
 	private:
+		/// List of colliding items
 		QList<QGraphicsItem *> colliding_items;
-		
+
+		/// Direction of the player
 		QPoint direction;
-		QTimer *path_timer;
-=======
-	Q_OBJECT
-    public:
-        /// List of points of the shortest path
-        QList<QPoint> shortest_path;
-
-        /// Iterator of the shortest path
-        QList<QPoint>::iterator s_path_iter;
-
-        /// Scene of the game
-        QGraphicsScene *parent_scene;
-
-        /// Boolean to check if the player has the key
-        bool found_key;
-
-        /// Number of lives of the player
-        int num_lives;
-
-        /// Constructor of the player
-        /// \param parent parent item
-        /// \param size size of the player
-        Player(QGraphicsItem *parent=nullptr, int size=50);
-
-        /// Move the player
-        void move();
-
-        /// Start the timer
-        bool start_timer ();
-
-        /// Stop the timer
-        bool stop_timer ();
-
-        /// Move the player according to the key pressed
-        /// \param key key pressed
-        void key_move (int key);
-
-    public slots:
-        /// Move the player according to the shortest path
-        void shortest_path_move ();
-
-    private:
-        /// List of items colliding with the player
-        QList<QGraphicsItem *> colliding_items;
-
-        /// Direction of the player
-        QPoint direction;
-
-        /// Timer for the shortest path
-        QTimer *path_timer;
->>>>>>> f548508cc74547ba59c14f2de0dffd6e0cd42182
 };
 
 #endif //QTTEST_PLAYER_H

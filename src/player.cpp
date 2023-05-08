@@ -7,7 +7,14 @@ Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	direction.ry() = 0;
 	found_key = false;
 	follow_path = false;
-	num_lives = 3;
+	num_lives = 1;
+	step_count = 0;
+	i_ticks = 0;
+	is_invincible = false;
+}
+
+Player::~Player() {
+
 }
 
 void Player::move () {

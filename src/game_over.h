@@ -2,6 +2,7 @@
 #define GAME_OVER_H
 
 #include <QWidget>
+#include "game.hpp"
 
 namespace Ui {
 class Game_over;
@@ -13,7 +14,7 @@ class Game_over : public QWidget {
     public:
         /// Constructor of the game over menu
         /// \param parent parent widget
-        explicit Game_over(QWidget *parent = nullptr);
+        explicit Game_over(QWidget *parent = nullptr, Game *game = nullptr);
 
         /// Destructor of the game over menu
         ~Game_over();
@@ -28,6 +29,9 @@ class Game_over : public QWidget {
     private:
         /// UI of the game over menu
         Ui::Game_over *ui;
+
+		/// Game
+		Game *game;
 };
 
 #endif // GAME_OVER_H

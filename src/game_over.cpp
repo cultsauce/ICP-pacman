@@ -1,7 +1,7 @@
 #include "game_over.h"
 #include "ui_game_over.h"
 
-Game_over::Game_over(QWidget *parent) :
+Game_over::Game_over(QWidget *parent, Game *game) :
     QWidget(parent),
     ui(new Ui::Game_over)
 {
@@ -13,7 +13,9 @@ Game_over::~Game_over() {
 }
 
 void Game_over::on_pushButton_clicked() {
-    exit(1);
+	this->hide();
+	delete this;
+	game->restart();
 }
 
 void Game_over::on_pushButton_2_clicked() {

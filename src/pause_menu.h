@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTimer>
+#include "game.hpp"
 
 namespace Ui {
 class Pause_menu;
@@ -16,7 +17,7 @@ class Pause_menu : public QWidget
         /// Constructor of the pause menu
         /// \param parent parent widget
         /// \param timer global timer
-        explicit Pause_menu(QWidget *parent = nullptr, QTimer *timer = nullptr);
+        explicit Pause_menu(QWidget *parent = nullptr, QTimer *timer = nullptr, Game *game = nullptr);
 
         /// Destructor of the pause menu
         ~Pause_menu();
@@ -25,21 +26,22 @@ class Pause_menu : public QWidget
         /// Global timer
         QTimer *timer;
 
+		/// Game
+		Game *game;
+
     private slots:
 
         /// Handles resume button click
         void on_pushButton_clicked();
 
-        /// Handles replay button click
+        /// Handles restart button click
         void on_pushButton_2_clicked();
 
-        /// Handles restart button click
+        /// Handles exit button click
         void on_pushButton_3_clicked();
 
-        /// Handles exit button click
-        void on_pushButton_4_clicked();
-
-    private:
+private:
+		/// UI of the pause menu
         Ui::Pause_menu *ui;
 };
 

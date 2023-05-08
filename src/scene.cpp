@@ -1,44 +1,54 @@
 #include "scene.hpp"
 #include <algorithm>
 #include <iostream>
-#include <string>
-#include <fstream>
 #include "form.h"
 #include "game_over.h"
-#include "pause_menu.h"
+#include <QGraphicsTextItem>
+#include "start.h"
 
-GameScene::GameScene (const char filename[]) {
-<<<<<<< HEAD
-//    replay ("log.txt");
-//    replay_mode = true;
-    
-	log_file.open("log.txt");
-    replay_mode = false;
+GameScene::GameScene (const char filename[], Game *game, bool start, bool normal, bool repl) {
+	if (repl) {
+	    replay(game->map);
+	    replay_mode = true;
+	} else if (normal) {
+		replay_mode = false;
 
-    std::ifstream file (filename);
-    if (!file.is_open()) {
-        exit (EXIT_FAILURE);
-    }
-    generate_scene_from_txt (file);
-    file.close ();
-=======
-    generate_scene_from_txt (filename);
+		std::ifstream file(filename);
+		if (!file.is_open()) {
+			exit(EXIT_FAILURE);
+		}
 
-    std::time_t t = std::time(nullptr);
-    std::string log_filename = "log_" + std::to_string(t) + ".txt";
-	log_file.open(log_filename);
->>>>>>> f548508cc74547ba59c14f2de0dffd6e0cd42182
+		init_log(file);
 
-    timer = new QTimer(this);
-	QTimer * global_timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(monitor_game_state ()));
-	timer->start(50);
+		generate_scene_from_txt(file);
 
-    srand(time(NULL));
+		this->game = game;
+
+		timer = new QTimer(this);
+		connect(timer, SIGNAL(timeout()), this, SLOT(monitor_game_state()));
+		timer->start(50);
+
+		srand(time(NULL));
+	}
 }
 
 GameScene::~GameScene () {
     log_file.close();
+}
+
+void GameScene::init_log(std::ifstream &file) {
+	std::time_t t = std::time(nullptr);
+    std::string log_filename = "log_" + std::to_string(t) + ".txt";
+
+	log_file.open(log_filename);
+	std::string line;
+	while (std::getline(file, line)) {
+		log_file << line << std::endl;
+	}
+	log_file << std::endl;
+
+	file.clear();
+	file.seekg(0, std::ios::beg);
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *mouse_event) {
@@ -69,7 +79,6 @@ void GameScene::regenerate_path (QList <PathNode *> &closed, PathNode *&start_po
         path.prepend (tmp->pos);
         tmp = tmp->prev_node;
     }
-    qDebug () << "path found";
 }
 
 void GameScene::shortest_path (QPoint start, QPoint stop, QList<QPoint> &path, QList<QPoint>::iterator &iter) {
@@ -161,11 +170,14 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 		event->key() == Qt::Key_W ||
 		event->key() == Qt::Key_Z	) {
 
+		player->step_count++;
 		player->key_move (event->key());
+		this->update_steps();
 	}
 
 	if (event->key() == Qt::Key_Escape && timer->isActive()) {
 		Pause_menu *menu = new Pause_menu(view, timer);
+
 		menu->move(view->width() / 2 - menu->width()/2,view->height() / 2 - menu->height()/2);
 		menu->show();
 	}
@@ -230,8 +242,16 @@ void GameScene::monitor_game_state () {
     QList <QGraphicsItem *> intersecting_objects = items (QRectF(player->pos().x(), player->pos().y(), (qreal)BLOCK_SIZE, (qreal)BLOCK_SIZE));
     for (QGraphicsItem *&item: intersecting_objects) {
         if (typeid(*item) == typeid(Ghost)) {
-            qDebug() << "gameover";
-            game_over ();
+			if (player->num_lives > 0) {
+				player->num_lives--;
+				this->removeItem(heart);
+				delete heart;
+				player->is_invincible = true;
+				player->i_ticks = 15;
+			} else if (!player->is_invincible) {
+				qDebug() << "gameover";
+				game_over();
+			}
         }
         else if (typeid(*item) == typeid(Key)) {
             player->found_key = true;
@@ -239,10 +259,13 @@ void GameScene::monitor_game_state () {
             delete item;
         }
         else if (typeid(*item) == typeid(Lock) && player->found_key) {
-            qDebug () << "winwin";
-            game_win ();
+            qDebug() << "winwin";
+            game_win();
         }
     }
+	if (player->is_invincible) {
+		player->i_ticks > 0 ? player->i_ticks-- : player->is_invincible = false;
+	}
     log ();
 }
 
@@ -312,8 +335,25 @@ void GameScene::generate_scene_from_txt (std::ifstream &file) {
             }
         }
     }
+	heart = new Heart(nullptr, BLOCK_SIZE);
+	heart->setPos(10, 0);
+	this->addItem(heart);
+
+	text = new QGraphicsTextItem(nullptr);
+	text->setHtml("<html><head/><body><p><span style=\" font-size:14pt;\">0</span></p></body></html>");
+	QColor color = QColor();
+	color.setGreen(180);
+	text->setDefaultTextColor(color);
+	this->addItem(text);
+	text->setPos(60,0);
 }
 
 void GameScene::set_view(QGraphicsView *view) {
 	this->view = view;
+}
+
+void GameScene::update_steps() {
+	auto a = "<html><head/><body><p><span style=\" font-size:14pt;\">" + std::to_string(player->step_count)  + "</span></p></body></html>";
+	QString b = QString(a.data());
+	text->setHtml(b);
 }

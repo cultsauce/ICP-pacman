@@ -22,7 +22,7 @@ class GameScene;
 #include "form.h"
 #include "game_over.h"
 
-
+/// structure representing a node during pathfinding
 typedef struct path_node {
     QPoint pos;
     qreal cost;
@@ -39,6 +39,7 @@ class GameScene: public QGraphicsScene {
         /// Height of the scene from the map
         int height;
 
+        /// indicate if selected mode is replay mode
 		bool replay_mode;
 
         /// Constructor of the main scene

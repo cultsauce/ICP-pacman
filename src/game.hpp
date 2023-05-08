@@ -58,6 +58,7 @@ class Game {
 		/// Map file name
 		const char *map;
 
+		/// indicate if menu is already open
 		bool menu_open;
 
     private:

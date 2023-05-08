@@ -135,7 +135,8 @@ void GameScene::shortest_path (QPoint start, QPoint stop, QList<QPoint> &path, Q
 }
 
 bool GameScene::is_valid_move (QPoint &pos) {
-    if (pos.x() < 0 || pos.y() < 0 || pos.x() > 450 || pos.y() > 450) return false;
+    if (pos.x() < 0 || pos.y() < 0 || pos.x() > this->views().first()->width() - BLOCK_SIZE || pos.y() > this->views().first()->height() - BLOCK_SIZE) return false;
+	//if (pos.x() < 0 || pos.y() < 0 || pos.x() > 450 || pos.y() > 450) return false;
     QGraphicsItem *item = itemAt (pos, QTransform());
 
     if (item != nullptr && typeid(*item) == typeid(Wall)) return false;
@@ -174,7 +175,6 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 
 	if(replay_mode) {
 		if (event->key() == Qt::Key_Escape && !game->menu_open) {
-			std::cout << "pause" << std::endl;
 			Pause_menu *menu = new Pause_menu(view, nullptr, game);
 			game->menu_open = true;
 
@@ -293,8 +293,8 @@ void GameScene::generate_scene_from_txt (std::ifstream &file) {
     getline(file, line);
     while (isdigit(line[i++]));
 
-    width = std::stoi(line.substr(0, i));
-    height = std::stoi(line.substr(i, std::string::npos));
+	height = std::stoi(line.substr(0, i));
+    width = std::stoi(line.substr(i, std::string::npos));
 
     this->setSceneRect(0, 0, width * BLOCK_SIZE, height * BLOCK_SIZE);
     this->setBackgroundBrush(QBrush(Qt::black));

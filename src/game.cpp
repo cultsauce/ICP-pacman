@@ -8,6 +8,7 @@ Game::Game (int argc, char *argv[], const char filename []) {
 	this->argv = argv;
 	app = nullptr;
 	option = 0;
+	map = nullptr;
 }
 
 int Game::init() {

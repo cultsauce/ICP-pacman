@@ -8,6 +8,7 @@
 #include <QGraphicsItem>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QGraphicsView>
 
 #include "Wall.h"
 
@@ -42,6 +43,7 @@ class Player : public QObject, public QGraphicsPixmapItem {
 		/// Constructor
 		/// \param parent parent QGraphicsItem
 		/// \param size size of the player
+		/// \param view view of the player
 		Player(QGraphicsItem *parent=nullptr, int size=50);
 
 		/// Destructor
@@ -65,6 +67,9 @@ class Player : public QObject, public QGraphicsPixmapItem {
 
 		/// Direction of the player
 		QPoint direction;
+
+		/// Size of the player, always a square
+		int size;
 };
 
 #endif //QTTEST_PLAYER_H

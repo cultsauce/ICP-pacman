@@ -16,6 +16,9 @@ Start::~Start() {
 
 void Start::on_pushButton_clicked() {
 	this->open_file();
+	if (game->map == nullptr) {
+		return;
+	}
 	this->hide();
 	game->option = 1;
 	game->restart();
@@ -25,6 +28,10 @@ void Start::on_pushButton_clicked() {
 
 void Start::on_pushButton_2_clicked() {
 	this->open_file();
+	if (game->map == nullptr) {
+		return;
+	}
+
 	this->hide();
 	game->option = 2;
 	game->restart();
@@ -38,11 +45,13 @@ void Start::on_pushButton_3_clicked() {
 }
 
 void Start::open_file() {
-	QString filename =  QFileDialog::getOpenFileName(
+	QString filename = nullptr;
+	filename =  QFileDialog::getOpenFileName(
           this,
           "Open File",
           QDir::currentPath(),
-          "All files (*.*) ;; Text files (*.txt);; Log files (*.log)");
+          "All files (*.*) ;; Text files (*.txt);; Log files (*.log)"
+    );
 	if (!filename.isNull()) {
 		game->map = filename.toUtf8();
 	}

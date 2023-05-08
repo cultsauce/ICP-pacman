@@ -1,4 +1,5 @@
 #include "player.h"
+#include <iostream>
 
 
 Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
@@ -11,6 +12,7 @@ Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
 	step_count = 0;
 	i_ticks = 0;
 	is_invincible = false;
+	this->size = size;
 }
 
 Player::~Player() {
@@ -49,7 +51,7 @@ void Player::key_move (int key) {
 		direction.ry() = STEP_SIZE;
 	}
 	QPointF new_pos = pos() + direction;
-	if (new_pos.x() < 0 || new_pos.y() < 0 || new_pos.x() > 450 || new_pos.y() > 450) return;
+	if (new_pos.x() < 0 || new_pos.y() < 0 || new_pos.x() > parent_scene->views().first()->width() - size || new_pos.y() > parent_scene->views().first()->height() - size) return;
 	QList<QGraphicsItem *> items = parent_scene->items(QRectF(new_pos.x(), new_pos.y(), (qreal)BLOCK_SIZE, (qreal)BLOCK_SIZE));
 	for (QGraphicsItem *&item:items) {
 		if (typeid(*item) == typeid(Wall)) {

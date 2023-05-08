@@ -38,7 +38,6 @@ void Start::on_pushButton_3_clicked() {
 }
 
 void Start::open_file() {
-	std::cout << "open_file" << std::endl;
 	QString filename =  QFileDialog::getOpenFileName(
           this,
           "Open File",

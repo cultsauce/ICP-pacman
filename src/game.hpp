@@ -53,6 +53,8 @@ class Game {
 		/// Map file name
 		const char *map;
 
+		bool menu_open;
+
     private:
         /// Qt application
         QApplication *app;

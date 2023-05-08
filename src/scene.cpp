@@ -30,6 +30,7 @@ GameScene::GameScene (const char filename[], Game *game, bool start, bool normal
 
 		srand(time(NULL));
 	}
+	game->menu_open = false;
 }
 
 GameScene::~GameScene () {
@@ -155,14 +156,14 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
             key->setVisible (!replayer->key_prev_pos());
         }
 		else if (event->key() == Qt::Key_D) {
-            player->setPos(replayer->player_next_pos ());
-            QList<QPoint> ghost_pos = replayer->ghost_next_pos ();
-            QList<QPoint>::iterator ghost_iter = ghost_pos.begin();
-            for (Ghost *ghost:ghosts) {
-                ghost->setPos (*ghost_iter);
-                ghost_iter = std::next (ghost_iter, 1);
-            }
-            key->setVisible (!replayer->key_next_pos());
+	        player->setPos(replayer->player_next_pos());
+	        QList<QPoint> ghost_pos = replayer->ghost_next_pos();
+	        QList<QPoint>::iterator ghost_iter = ghost_pos.begin();
+	        for (Ghost *ghost: ghosts) {
+		        ghost->setPos(*ghost_iter);
+		        ghost_iter = std::next(ghost_iter, 1);
+	        }
+	        key->setVisible(!replayer->key_next_pos());
         }
     }
 	else if (event->key() == Qt::Key_A ||
@@ -175,11 +176,21 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
 		this->update_steps();
 	}
 
-	if (event->key() == Qt::Key_Escape && timer->isActive()) {
-		Pause_menu *menu = new Pause_menu(view, timer);
+	if(replay_mode) {
+		if (event->key() == Qt::Key_Escape && !game->menu_open) {
+			Pause_menu *menu = new Pause_menu(view, nullptr, game);
+			game->menu_open = true;
 
-		menu->move(view->width() / 2 - menu->width()/2,view->height() / 2 - menu->height()/2);
-		menu->show();
+			menu->move(view->width() / 2 - menu->width()/2,view->height() / 2 - menu->height()/2);
+			menu->show();
+		}
+	} else {
+		if (event->key() == Qt::Key_Escape && timer->isActive()) {
+			Pause_menu *menu = new Pause_menu(view, timer);
+
+			menu->move(view->width() / 2 - menu->width() / 2, view->height() / 2 - menu->height() / 2);
+			menu->show();
+		}
 	}
 	
 }

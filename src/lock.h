@@ -1,3 +1,8 @@
+/// \file lock.h
+/// \brief This file contains the declaration of the Lock class used for the lock object.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef QTTEST_LOCK_H
 #define QTTEST_LOCK_H
 
@@ -13,6 +18,9 @@ class Lock : public QObject, public QGraphicsPixmapItem {
         /// \param parent parent item
         /// \param size size of the lock
         Lock(QGraphicsItem *parent=nullptr, int size=20);
+
+		/// Destructor
+		~Lock();
 
     private:
         /// Pixmap of the lock

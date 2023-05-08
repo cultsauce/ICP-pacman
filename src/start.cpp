@@ -1,3 +1,8 @@
+/// \file start.cpp
+/// \brief This file contains the implementation of the Start class used for the start menu.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #include "start.h"
 #include "ui_start.h"
 #include "game.hpp"

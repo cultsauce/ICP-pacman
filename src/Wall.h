@@ -1,3 +1,8 @@
+/// \file Wall.h
+/// \brief This file contains the declaration of the Wall class used for the walls in the game.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef QTTEST_WALL_H
 #define QTTEST_WALL_H
 
@@ -13,6 +18,9 @@ class Wall : public QObject, public QGraphicsPixmapItem {
         /// \param parent parent item
         /// \param size size of the wall
         Wall(QGraphicsItem *parent=nullptr, int size=50);
+
+		/// Destructor of the wall
+		~Wall();
     private:
         /// Pixmap of the wall
         QPixmap * pixmap;

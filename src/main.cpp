@@ -2,7 +2,7 @@
 
 
 int main(int argc, char *argv[]) {
-	Game *game = new Game (argc, argv, "map.txt");
+	Game *game = new Game (argc, argv);
 	int ret = game->init();
 	if (ret != 5) return ret;
 	while (true) {

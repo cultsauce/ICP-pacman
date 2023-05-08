@@ -1,3 +1,8 @@
+/// \file pause_menu.cpp
+/// \brief This file contains the implementation of the Pause_menu class used for pause menu.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #include "pause_menu.h"
 #include "ui_pause_menu.h"
 

@@ -1,3 +1,8 @@
+/// \file player.h
+/// \brief This file contains the declaration of the Player class used for the Pacman.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef QTTEST_PLAYER_H
 #define QTTEST_PLAYER_H
 

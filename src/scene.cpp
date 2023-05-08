@@ -1,10 +1,12 @@
+/// \file scene.cpp
+/// \brief This file contains the implementation of the GameScene class used for the main game scene.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #include "scene.hpp"
 #include <algorithm>
 #include <iostream>
-#include "form.h"
-#include "game_over.h"
 #include <QGraphicsTextItem>
-#include "start.h"
 
 GameScene::GameScene (const char filename[], Game *game, bool start, bool normal, bool repl) {
 	if (repl) {

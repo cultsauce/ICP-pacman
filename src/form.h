@@ -1,3 +1,8 @@
+/// \file form.h
+/// \brief This file contains the declaration of the Form class used for victory screen.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef FORM_H
 #define FORM_H
 

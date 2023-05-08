@@ -1,3 +1,8 @@
+/// \file scene.hpp
+/// \brief Header file for the main scene
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef SCENE_HPP
 #define SCENE_HPP
 class GameScene;
@@ -14,6 +19,8 @@ class GameScene;
 #include "game.hpp"
 #include "replayer.hpp"
 #include "heart.h"
+#include "form.h"
+#include "game_over.h"
 
 
 typedef struct path_node {

@@ -1,3 +1,8 @@
+/// \file game.hpp
+/// \brief This file contains the declaration of the Game class used for game management.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef GAME_HPP
 #define GAME_HPP
 class Game;
@@ -26,7 +31,7 @@ class Game {
         /// \param argc number of arguments
         /// \param argv arguments
         /// \param filename file with the map
-        Game (int argc, char *argv[], const char filename[]);
+        Game (int argc, char *argv[]);
 
 		/// Destructor of the game
 //		~Game ();

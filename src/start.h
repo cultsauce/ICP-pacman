@@ -1,3 +1,8 @@
+/// \file start.h
+/// \brief This file contains the declaration of the Start class used for start menu.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef START_H
 #define START_H
 

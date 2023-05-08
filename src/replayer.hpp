@@ -1,3 +1,8 @@
+/// \file replayer.hpp
+/// \brief This file contains the declaration of the Replayer class used for the replay of the game.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef REPLAY_HPP
 #define REPLAY_HPP
 

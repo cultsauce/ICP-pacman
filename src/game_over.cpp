@@ -1,3 +1,8 @@
+/// \file game_over.cpp
+/// \brief This file contains the implementation of the Game_over class used for game over screen.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #include "game_over.h"
 #include "ui_game_over.h"
 

@@ -1,3 +1,8 @@
+/// \file replayer.cpp
+/// \brief This file contains the implementation of the Replayer class used for replaying the game.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #include "replayer.hpp"
 
 Replayer::Replayer (std::ifstream &logfile) {

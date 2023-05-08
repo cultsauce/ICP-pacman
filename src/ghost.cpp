@@ -1,7 +1,12 @@
+/// \file ghost.cpp
+/// \brief This file contains the implementation of the Ghost class used for ghost enemies.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #include "ghost.hpp"
 
 Ghost::Ghost(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
-	pixmap = new QPixmap("../Resources/images/ghost.png");
+	pixmap = new QPixmap("Resources/images/ghost.png");
 	setPixmap(pixmap->scaled(size, size));
 
 	direction.rx() = 0;

@@ -1,3 +1,8 @@
+/// \file ghost.hpp
+/// \brief This file contains the declaration of the Ghost class used for ghost enemies.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef QTTEST_GHOST_H
 #define QTTEST_GHOST_H
 class Ghost;

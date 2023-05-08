@@ -1,3 +1,8 @@
+/// \file heart.h
+/// \brief This file contains the declaration of the Heart class used for live count gui.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef QTTEST_HEART_H
 #define QTTEST_HEART_H
 

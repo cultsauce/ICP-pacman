@@ -1,3 +1,8 @@
+/// \file pause_menu.h
+/// \brief This file contains the declaration of the Pause_menu class used for pause menu.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef PAUSE_MENU_H
 #define PAUSE_MENU_H
 

@@ -1,3 +1,8 @@
+/// \file game_over.h
+/// \brief This file contains the declaration of the Game_over class used for game over screen.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef GAME_OVER_H
 #define GAME_OVER_H
 

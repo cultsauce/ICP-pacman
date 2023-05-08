@@ -1,3 +1,8 @@
+/// \file key.h
+/// \brief This file contains the declaration of the Key class used for the key object.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #ifndef QTTEST_KEY_H
 #define QTTEST_KEY_H
 

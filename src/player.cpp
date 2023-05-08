@@ -1,9 +1,14 @@
+/// \file player.cpp
+/// \brief This file contains the implementation of the Player class used for the Pacman controls.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #include "player.h"
 #include <iostream>
 
 
 Player::Player(QGraphicsItem *parent, int size): QGraphicsPixmapItem(parent) {
-	setPixmap(QPixmap("../Resources/images/pacman.png").scaled(size, size));
+	setPixmap(QPixmap("Resources/images/pacman.png").scaled(size, size));
 	direction.rx() = STEP_SIZE;
 	direction.ry() = 0;
 	found_key = false;

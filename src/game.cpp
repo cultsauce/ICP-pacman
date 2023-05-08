@@ -1,9 +1,14 @@
+/// \file game.cpp
+/// \brief This file contains the implementation of the Game class used for game management.
+/// \author Jan Kalenda(xkalen07) & Tereza Kubincova(xkubin27)
+/// \date 08.05.2023
+
 #include "game.hpp"
 #include "start.h"
 #include <QDesktopWidget>
 #include <QStyle>
 
-Game::Game (int argc, char *argv[], const char filename []) {
+Game::Game (int argc, char *argv[]) {
 	this->argc = argc;
 	this->argv = argv;
 	app = nullptr;

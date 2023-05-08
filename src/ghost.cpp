@@ -33,13 +33,13 @@ void Ghost::move() {
 	if ((*s_path_iter).y() > pos().y()) direction.ry() = GHOST_STEP_SIZE;
 	if ((*s_path_iter).y() < pos().y()) direction.ry() = -GHOST_STEP_SIZE;
 
-	QTransform transform = QTransform();
-	transform.translate( boundingRect().center().x(), boundingRect().center().y());
-	if (direction.rx() == -GHOST_STEP_SIZE) transform.scale(-1, 1);
-	else if (direction.rx() == GHOST_STEP_SIZE) transform.scale(1, 1);
-	else if (direction.ry() == -GHOST_STEP_SIZE) transform.rotate(-90);
-	else if (direction.ry() = GHOST_STEP_SIZE) transform.rotate(90);
-	transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
-	setTransform(transform);
+	// QTransform transform = QTransform();
+	// transform.translate( boundingRect().center().x(), boundingRect().center().y());
+	// if (direction.rx() == -GHOST_STEP_SIZE) transform.scale(-1, 1);
+	// else if (direction.rx() == GHOST_STEP_SIZE) transform.scale(1, 1);
+	// else if (direction.ry() == -GHOST_STEP_SIZE) transform.rotate(-90);
+	// else if (direction.ry() = GHOST_STEP_SIZE) transform.rotate(90);
+	// transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
+	// setTransform(transform);
 	setPos(pos() + direction);
 }

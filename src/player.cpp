@@ -25,14 +25,14 @@ Player::~Player() {
 }
 
 void Player::move () {
-	QTransform transform = QTransform();
-	transform.translate( boundingRect().center().x(), boundingRect().center().y());
-	if (direction.rx() == -STEP_SIZE) transform.scale(-1, 1);
-	else if (direction.rx() == STEP_SIZE) transform.scale(1, 1);
-	else if (direction.ry() == -STEP_SIZE) transform.rotate(-90);
-	else if (direction.ry() = STEP_SIZE) transform.rotate(90);
-	transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
-	setTransform(transform);
+	// QTransform transform = QTransform();
+	// transform.translate( boundingRect().center().x(), boundingRect().center().y());
+	// if (direction.rx() == -STEP_SIZE) transform.scale(-1, 1);
+	// else if (direction.rx() == STEP_SIZE) transform.scale(1, 1);
+	// else if (direction.ry() == -STEP_SIZE) transform.rotate(-90);
+	// else if (direction.ry() = STEP_SIZE) transform.rotate(90);
+	// transform.translate( -boundingRect().center().x(),  -boundingRect().center().y());
+	// setTransform(transform);
 	setPos(pos() + direction);
 	step_count++;
 }
